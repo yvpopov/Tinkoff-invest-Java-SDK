@@ -8,21 +8,14 @@ import ru.yvpopov.tinkoffsdk.Communication;
 public class Instruments extends Service {
 
     public Instruments(Communication communication) {
-        //super(communication, ru.tinkoff.piapi.contract.v1.InstrumentsServiceGrpc.newBlockingStub(communication.getChannel()));
         super(communication, ru.tinkoff.piapi.contract.v1.InstrumentsServiceGrpc.class);
     }
 
     public TradingSchedulesResponse TradingSchedules(String Exchange, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
         var build = TradingSchedulesRequest.newBuilder();
-        if (Exchange != null) {
-            build.setExchange(Exchange);
-        }
-        if (from != null) {
-            build.setFrom(from);
-        }
-        if (to != null) {
-            build.setTo(to);
-        }
+        if (Exchange != null) build.setExchange(Exchange);
+        if (from != null) build.setFrom(from);
+        if (to != null) build.setTo(to);
         return CallMethod(
                 InstrumentsServiceGrpc.getTradingSchedulesMethod(),
                 build.build()
@@ -31,16 +24,10 @@ public class Instruments extends Service {
 
     private InstrumentRequest instrumentrequest(InstrumentIdType id_type, String class_code, String id) {
         var build = InstrumentRequest.newBuilder();
-        if (id_type == null) {
-            id_type = InstrumentIdType.INSTRUMENT_ID_UNSPECIFIED;
-        }
+        if (id_type == null) id_type = InstrumentIdType.INSTRUMENT_ID_UNSPECIFIED;
         build.setIdType(id_type);
-        if (class_code != null) {
-            build.setClassCode(class_code);
-        }
-        if (id != null) {
-            build.setClassCode(id);
-        }
+        if (class_code != null) build.setClassCode(class_code);
+        if (id != null) build.setClassCode(id);
         return build.build();
     }
 
@@ -79,6 +66,13 @@ public class Instruments extends Service {
         );
     }
 
+    public InstrumentResponse GetInstrumentBy(InstrumentIdType id_type, String class_code, String id) throws ServiceException {
+        return CallMethod(
+                InstrumentsServiceGrpc.getGetInstrumentByMethod(),
+                instrumentrequest(id_type, class_code, id)
+        );
+    }
+    
     private InstrumentsRequest instrumentsrequest(InstrumentStatus instrumentStatus) {
         if (instrumentStatus == null) 
             instrumentStatus = InstrumentStatus.INSTRUMENT_STATUS_UNSPECIFIED;
@@ -106,10 +100,31 @@ public class Instruments extends Service {
         );
     }
 
-    public FuturesResponse FutureBy(InstrumentStatus instrumentStatus) throws ServiceException {
+    public FuturesResponse Futures(InstrumentStatus instrumentStatus) throws ServiceException {
         return CallMethod(
                 InstrumentsServiceGrpc.getFuturesMethod(),
                 instrumentsrequest(instrumentStatus)
         );
     }
+    
+    public SharesResponse Shares(InstrumentStatus instrumentStatus) throws ServiceException {
+        return CallMethod(
+                InstrumentsServiceGrpc.getSharesMethod(),
+                instrumentsrequest(instrumentStatus)
+        );
+    }
+
+    public GetAccruedInterestsResponse GetAccruedInterests(String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
+        var build = GetAccruedInterestsRequest.newBuilder();
+        if (figi != null) build.setFigi(figi);
+        if (from != null) build.setFrom(from);
+        if (to != null) build.setTo(to);
+        return CallMethod(
+                InstrumentsServiceGrpc.getGetAccruedInterestsMethod(),
+                build.build()
+        );
+    }
+    
+    
+    
 }
