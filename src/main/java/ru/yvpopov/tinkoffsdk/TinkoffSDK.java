@@ -22,12 +22,12 @@ public class TinkoffSDK {
         return new Communication(this.token, this.address, ControlLimit);
     }
 
-    private Instruments instruments = null;
+    private InstrumentsMod instruments = null;
     private Accounts accounts = null;
 
-    public Instruments getInstruments() {
+    public InstrumentsMod getInstruments() {
         if (instruments == null)
-            instruments = new Instruments(newCommunication());
+            instruments = new InstrumentsMod(newCommunication());
         return instruments;
     }
 
