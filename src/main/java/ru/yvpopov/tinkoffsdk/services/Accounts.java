@@ -7,8 +7,6 @@ import ru.yvpopov.tinkoffsdk.Communication;
 
 public class Accounts extends Service {
 
-    //UsersServiceGrpc.UsersServiceBlockingStub stub = UsersServiceGrpc.newBlockingStub(getCommunication().getChannel());
-    //io.grpc.stub.AbstractBlockingStub stub;
     public Accounts(Communication communication) {
         super(communication, ru.tinkoff.piapi.contract.v1.UsersServiceGrpc.class);
     }
@@ -16,7 +14,7 @@ public class Accounts extends Service {
     /**
      *
      * @return Информация о счёте.
-     * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
+     * @throws ServiceException
      */
     public GetAccountsResponse GetAccounts() throws ServiceException {
         return CallMethod(
@@ -29,7 +27,8 @@ public class Accounts extends Service {
      *
      * @param account_id Идентификатор счёта пользователя.
      * @return Маржинальные показатели по счёту.
-     * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
+     * @throws ServiceException
+     * Может возникать исключение если маржинальная торговля для счета выключена
      */
     public GetMarginAttributesResponse GetMarginAttributes(String account_id) throws ServiceException {
         return CallMethod(
@@ -41,7 +40,7 @@ public class Accounts extends Service {
     /**
      *
      * @return Текущие лимиты пользователя.
-     * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
+     * @throws ServiceException
      */
     public GetUserTariffResponse GetUserTariff() throws ServiceException {
         return CallMethod(
@@ -53,7 +52,7 @@ public class Accounts extends Service {
     /**
      *
      * @return Информация о пользователе.
-     * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
+     * @throws ServiceException
      */
     public GetInfoResponse GetInfo() throws ServiceException {
         return CallMethod(
