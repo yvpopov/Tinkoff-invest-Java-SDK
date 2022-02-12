@@ -240,6 +240,39 @@ public class Instruments extends Service {
         );
     }
     
+    /**
+     *
+     * @param figi Figi-идентификатор инструмента.
+     * @return Размер гарантийного обеспечения по фьючерсу.
+     * @throws ServiceException
+     */
+    public GetFuturesMarginResponse GetFuturesMargin(String figi) throws ServiceException {
+        var build = GetFuturesMarginRequest.newBuilder();
+        if (figi != null) build.setFigi(figi);
+        return CallMethod(
+                InstrumentsServiceGrpc.getGetFuturesMarginMethod(),
+                build.build()
+        );
+    }
+
+    /**
+     *
+     * @param figi Figi-идентификатор инструмента.
+     * @param from Начало запрашиваемого периода в часовом поясе UTC.
+     * @param to Окончание запрашиваемого периода в часовом поясе UTC.
+     * @return Массив событий выплаты дивидендов по инструменту.
+     * @throws ServiceException
+     */
+    public GetDividendsResponse GetDividends(String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
+        var build = GetDividendsRequest.newBuilder();
+        if (figi != null) build.setFigi(figi);
+        if (from != null) build.setFrom(from);
+        if (to != null) build.setTo(to);
+        return CallMethod(
+                InstrumentsServiceGrpc.getGetDividendsMethod(),
+                build.build()
+        );
+    }
     
     
 }
