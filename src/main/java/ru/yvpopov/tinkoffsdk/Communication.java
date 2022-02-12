@@ -14,16 +14,19 @@ public class Communication {
     private final ManagedChannel channel;
 
     Communication(String token, String address) {
+        this(token,address,true);
+    }
+    
+    Communication(String token, String address, boolean ControlLimit) {
         Metadata header = new Metadata();
-        //ClientInterceptor ci = new 
         header.put(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER), String.format("Bearer %s", token));
-        channel = ManagedChannelBuilder
+        var pre = ManagedChannelBuilder
                 .forTarget(address)
                 .useTransportSecurity() //https (ssl/tls)
                 .intercept(new CI_HeaderAttaching(header))
-                .intercept(new CI_HeadersCapture(InputHeaders, InputTrailers))
-                .intercept(new CI_CheckXRatelimit(this))
-                .build();
+                .intercept(new CI_HeadersCapture(InputHeaders, InputTrailers));
+        if (ControlLimit) pre.intercept(new CI_CheckXRatelimit(this));
+        channel = pre.build();
     }
 
     private final AtomicReference<Metadata> InputHeaders = new AtomicReference<>();

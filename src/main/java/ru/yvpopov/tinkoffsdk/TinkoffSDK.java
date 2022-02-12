@@ -10,10 +10,16 @@ public class TinkoffSDK {
     public TinkoffSDK(String token) {
         this(token, "invest-public-api.tinkoff.ru:443");
     }
+    
+    boolean ControlLimit = true;
 
-
+    public TinkoffSDK setControlLimit(boolean ControlLimit) {
+        this.ControlLimit = ControlLimit;
+        return this;
+    }
+    
     public Communication newCommunication() {
-        return new Communication(this.token, this.address);
+        return new Communication(this.token, this.address, ControlLimit);
     }
 
     private Instruments instruments = null;
