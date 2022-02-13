@@ -1,42 +1,70 @@
 package ru.yvpopov.tinkoffsdk.ClientInterceptor;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
 import io.grpc.ClientInterceptor;
 import io.grpc.ForwardingClientCall;
 import io.grpc.Metadata;
+import io.grpc.Metadata.Key;
 import io.grpc.MethodDescriptor;
+import ru.yvpopov.tinkoffsdk.Communication;
 
-
-public final class CI_HeaderAttaching implements ClientInterceptor {
+public class CI_HeaderAttaching implements ClientInterceptor {
 
     private final Metadata extraHeaders;
 
-    public CI_HeaderAttaching(Metadata extraHeaders) {
-        this.extraHeaders = checkNotNull(extraHeaders, "extraHeaders");
+    private CI_HeaderAttaching() {
+        this.extraHeaders = new Metadata();
         this.extraHeaders.put(Metadata.Key.of("x-app-name", Metadata.ASCII_STRING_MARSHALLER), "yvpopov.Tinkoff-invest-Java-SDK");
+        //this.tokens = new ArrayList<>();
+    }
+
+    private Communication communication;
+
+    public CI_HeaderAttaching(Communication communication) {
+        this();
+        this.communication = communication;
+    }
+
+    protected Communication getCommunication() {
+        return this.communication;
+    }
+
+    protected String getToken() {
+        return getCommunication().getToken();
+    }
+
+    protected Metadata getMetaDate() {
+        String maintoken = getToken();
+        Key key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER);
+        var currentmeta = this.extraHeaders.get(key);
+        String currenttoken = (currentmeta == null ? null : currentmeta.toString());
+        if (!maintoken.equals(currenttoken)) {
+            this.extraHeaders.removeAll(key);
+            this.extraHeaders.put(key, maintoken);
+        }
+        return this.extraHeaders;
     }
 
     @Override
     public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
-        MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next) {
-      return new HeaderAttachingClientCall<>(next.newCall(method, callOptions));
+            MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next) {
+        return new HeaderAttachingClientCall<>(next.newCall(method, callOptions));
     }
 
-    private final class HeaderAttachingClientCall<ReqT, RespT>
-        extends ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT> {
+    protected class HeaderAttachingClientCall<ReqT, RespT>
+            extends ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT> {
 
-      // Non private to avoid synthetic class
-      HeaderAttachingClientCall(ClientCall<ReqT, RespT> call) {
-        super(call);
-      }
+        // Non private to avoid synthetic class
+        HeaderAttachingClientCall(ClientCall<ReqT, RespT> call) {
+            super(call);
+        }
 
-      @Override
-      public void start(ClientCall.Listener<RespT> responseListener, Metadata headers) {
-        headers.merge(extraHeaders);
-        super.start(responseListener, headers);
-      }
+        @Override
+        public void start(ClientCall.Listener<RespT> responseListener, Metadata headers) {
+            headers.merge(getMetaDate());
+            super.start(responseListener, headers);
+        }
     }
-  }
+}

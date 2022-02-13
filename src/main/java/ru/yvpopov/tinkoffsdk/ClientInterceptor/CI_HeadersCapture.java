@@ -17,7 +17,6 @@ public final class CI_HeadersCapture implements ClientInterceptor {
     final AtomicReference<Metadata> headersCapture;
     final AtomicReference<Metadata> trailersCapture;
 
-    // Non private to avoid synthetic class
     public CI_HeadersCapture(
             AtomicReference<Metadata> headersCapture, AtomicReference<Metadata> trailersCapture) {
         this.headersCapture = checkNotNull(headersCapture, "headersCapture");
@@ -36,7 +35,6 @@ public final class CI_HeadersCapture implements ClientInterceptor {
     private final class MetadataCapturingClientCall<ReqT, RespT>
             extends ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT> {
 
-        // Non private to avoid synthetic class
         MetadataCapturingClientCall(ClientCall<ReqT, RespT> call) {
             super(call);
         }

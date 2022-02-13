@@ -5,6 +5,7 @@ import ru.yvpopov.tinkoffsdk.Header.HeaderResponseTinkoff;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import ru.yvpopov.tinkoffsdk.ClientInterceptor.CI_HeaderAttaching;
 import ru.yvpopov.tinkoffsdk.ClientInterceptor.CI_HeadersCapture;
@@ -13,19 +14,38 @@ public class Communication {
 
     private final ManagedChannel channel;
 
-    Communication(String token, String address) {
-        this(token,address,true);
+    private final List<String> tokens;
+
+    private int KeyNo = 0;
+
+    public boolean NextToken() {
+        int keyno = KeyNo;
+        KeyNo++;
+        if (this.tokens.size() == KeyNo) {
+            KeyNo = 0;
+        }
+        return keyno!=KeyNo;
     }
-    
-    Communication(String token, String address, boolean ControlLimit) {
-        Metadata header = new Metadata();
-        header.put(Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER), String.format("Bearer %s", token));
+
+    public List<String> getTokens() {
+        return tokens;
+    }
+
+    public String getToken() {
+        return String.format("Bearer %s", this.tokens.get(KeyNo));
+    }
+
+    Communication(List<String> tokens, String address, boolean ControlLimit) {
+        this.tokens = tokens;
         var pre = ManagedChannelBuilder
                 .forTarget(address)
                 .useTransportSecurity() //https (ssl/tls)
-                .intercept(new CI_HeaderAttaching(header))
                 .intercept(new CI_HeadersCapture(InputHeaders, InputTrailers));
-        if (ControlLimit) pre.intercept(new CI_CheckXRatelimit(this));
+        if (ControlLimit) {
+            pre.intercept(new CI_CheckXRatelimit(this));
+        } else {
+            pre.intercept(new CI_HeaderAttaching(this));
+        }
         channel = pre.build();
     }
 
@@ -39,7 +59,6 @@ public class Communication {
     public HeaderResponseTinkoff getLastInputHeader() {
         return new HeaderResponseTinkoff(getLastInputMetadata());
     }
-
 
     public ManagedChannel getChannel() {
         return this.channel;

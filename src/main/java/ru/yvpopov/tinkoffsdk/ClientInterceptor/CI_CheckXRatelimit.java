@@ -3,8 +3,6 @@ package ru.yvpopov.tinkoffsdk.ClientInterceptor;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
-import io.grpc.ClientInterceptor;
-import io.grpc.ForwardingClientCall;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import java.text.ParseException;
@@ -15,18 +13,26 @@ import static org.apache.commons.lang3.time.DateUtils.parseDate;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.Header.HeaderResponseTinkoff;
 
-public class CI_CheckXRatelimit implements ClientInterceptor {
-
-    private final Communication communication;
+public class CI_CheckXRatelimit extends CI_HeaderAttaching {
 
     private HeaderResponseTinkoff LastHeaderResponse() {
-        return communication.getLastInputHeader();
+        return getCommunication().getLastInputHeader();
     }
+
+    private int LimitRemainQueryForNextToken = 1;
 
     public CI_CheckXRatelimit(Communication communication) {
-        this.communication = communication;
-
+        super(communication);
+        if (communication.getTokens().size() == 1) {
+            this.LimitRemainQueryForNextToken = 0;
+        }
     }
+
+    protected CI_CheckXRatelimit(Communication communication, int LimitRemainQueryForNextToken) {
+        super(communication);
+        this.LimitRemainQueryForNextToken = LimitRemainQueryForNextToken;
+    }
+
     /**
      *
      * @return Осталось запросов
@@ -34,6 +40,7 @@ public class CI_CheckXRatelimit implements ClientInterceptor {
     private int getIRatelimitRemain() {
         return toInt(LastHeaderResponse().getXRatelimitRemain());
     }
+
     /**
      *
      * @return Время сброса x-ratelimit-limit
@@ -66,21 +73,32 @@ public class CI_CheckXRatelimit implements ClientInterceptor {
     }
 
     /**
-     * 
+     *
      * @return Признак остатка лимита
      */
     private boolean isILimitRemain() {
         System.out.printf("Debug LimitRemain{%d; %d; %d} \n", getIRatelimitRemain(), getIDateTimeRatelimitReset().getTimeInMillis(), Calendar.getInstance().getTimeInMillis());
-        return (getIRatelimitRemain() > 0)
+        return (getIRatelimitRemain() > this.LimitRemainQueryForNextToken)
                 || (getIDateTimeRatelimitReset().getTimeInMillis() < Calendar.getInstance().getTimeInMillis());
     }
 
-    
+    Integer lastremai = null;
+
+    private boolean NextToken() {
+        if (lastremai != null && lastremai > getIRatelimitRemain()) 
+            return false;
+        if (getCommunication().NextToken()) {
+            lastremai = this.LimitRemainQueryForNextToken;
+            return true;
+        } else return false;
+    }
+
     /**
-     * Проверяет лимит и при его отсутствии делает паузу до момента сброса лимита
+     * Проверяет лимит и при его отсутствии делает паузу до момента сброса
+     * лимита
      */
     private void CheckLimit() {
-        if (!isILimitRemain()) {
+        if (!isILimitRemain() && !NextToken()) {
             System.out.printf("Лимит исчерпан до '%s'\n", getIDateTimeRatelimitReset().getTime());
             long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
             if (0 <= pause_ms) {
@@ -89,51 +107,36 @@ public class CI_CheckXRatelimit implements ClientInterceptor {
             try {
                 Thread.sleep(pause_ms);
             } catch (InterruptedException ex) {
-                //
+                System.err.println(ex);
             }
         }
     }
 
-    
-    
     @Override
     public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
             MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel) {
-        return new ForwardingClientCall.SimpleForwardingClientCall<ReqT, RespT>(
-                channel.newCall(methodDescriptor, callOptions)) {
+        return new CheckXRatelimitClientCall<>(channel.newCall(methodDescriptor, callOptions));
+    }
 
-            @Override
-            public void sendMessage(ReqT message) {
-                //System.out.printf("Sending method '%s' message '%s'%n", methodDescriptor.getFullMethodName(),message.toString());
-                super.sendMessage(message);
-            }
+    protected final class CheckXRatelimitClientCall<ReqT, RespT>
+            extends HeaderAttachingClientCall<ReqT, RespT> {
 
-            @Override
-            public void start(Listener<RespT> responseListener, Metadata headers) {
-                /*System.out.println("LastMethod "+LastHeaderResponse().getField("method"));
-                System.out.println("CurrentMethod "+methodDescriptor.getFullMethodName());*/
-                
-                
-                //Debug
-                //System.out.println(CI_CheckXRatelimit.class.getSimpleName() + "!!");
-                //System.out.println(Calendar.getInstance().getTime());
-                CheckLimit();
+        // Non private to avoid synthetic class
+        CheckXRatelimitClientCall(ClientCall<ReqT, RespT> call) {
+            super(call);
+        }
 
-                /*ClientCall.Listener<RespT> listener = new ForwardingClientCallListener<RespT>() {
-                    @Override
-                    protected Listener<RespT> delegate() {
-                        return responseListener;
-                    }
+        @Override
+        public void sendMessage(ReqT message) {
+            super.sendMessage(message);
+        }
 
-                    @Override
-                    public void onMessage(RespT message) {
-                        System.out.printf("Received message '%s'%n", message.toString());
-                        super.onMessage(message);
-                    }
-                };*/
-                super.start(responseListener, headers);
-            }
-        };
+        @Override
+        public void start(Listener<RespT> responseListener, Metadata headers) {
+            CheckLimit();
+            super.start(responseListener, headers);
+        }
+
     }
 
 }

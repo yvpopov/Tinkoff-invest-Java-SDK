@@ -1,14 +1,20 @@
 package ru.yvpopov.tinkoffsdk;
 
+import java.util.Arrays;
+import java.util.List;
 import ru.yvpopov.tinkoffsdk.services.*;
 
 public class TinkoffSDK {
 
-    private String token;
+    private List<String> tokens;
     private String address;
 
     public TinkoffSDK(String token) {
-        this(token, "invest-public-api.tinkoff.ru:443");
+        this(Arrays.asList(token), "invest-public-api.tinkoff.ru:443");
+    }
+
+    public TinkoffSDK(List<String> tokens) {
+        this(tokens, "invest-public-api.tinkoff.ru:443");
     }
     
     boolean ControlLimit = true;
@@ -19,7 +25,7 @@ public class TinkoffSDK {
     }
     
     public Communication newCommunication() {
-        return new Communication(this.token, this.address, ControlLimit);
+        return new Communication(this.tokens, this.address, ControlLimit);
     }
 
     private InstrumentsMod instruments = null;
@@ -37,9 +43,9 @@ public class TinkoffSDK {
         return accounts;
     }
     
-    public TinkoffSDK(String token, String address) {
+    public TinkoffSDK(List<String> tokens, String address) {
         this.address = address;
-        this.token = token;
+        this.tokens = tokens;
     }
 
 }
