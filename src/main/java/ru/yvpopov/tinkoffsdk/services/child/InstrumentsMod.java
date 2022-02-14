@@ -1,4 +1,4 @@
-package ru.yvpopov.tinkoffsdk.services;
+package ru.yvpopov.tinkoffsdk.services.child;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import ru.tinkoff.piapi.contract.v1.InstrumentRequest;
 import ru.tinkoff.piapi.contract.v1.InstrumentStatus;
 import ru.tinkoff.piapi.contract.v1.Share;
 import ru.yvpopov.tinkoffsdk.Communication;
+import ru.yvpopov.tinkoffsdk.services.Instruments;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
 /**
