@@ -31,6 +31,7 @@ public class TinkoffSDK {
 
     private InstrumentsMod instruments = null;
     private Accounts accounts = null;
+    private Marketdata marketdata = null;
 
     public InstrumentsMod getInstruments() {
         if (instruments == null)
@@ -42,6 +43,12 @@ public class TinkoffSDK {
         if (accounts == null)
             accounts = new Accounts(newCommunication());
         return accounts;
+    }
+
+    public Marketdata getMarketdata() {
+        if (marketdata == null)
+            marketdata = new Marketdata(newCommunication());
+        return marketdata;
     }
     
     public TinkoffSDK(List<String> tokens, String address) {
