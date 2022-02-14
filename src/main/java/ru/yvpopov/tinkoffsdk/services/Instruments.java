@@ -1,5 +1,6 @@
 package ru.yvpopov.tinkoffsdk.services;
 
+import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 import ru.yvpopov.tinkoffsdk.services.helpers.Service;
 import ru.tinkoff.piapi.contract.v1.*;
@@ -14,8 +15,8 @@ public class Instruments extends Service {
         Currencys,
         Shares
     }
-    
-    public Instruments(Communication communication) {
+
+    public Instruments(@Nonnull final Communication communication) {
         super(communication, ru.tinkoff.piapi.contract.v1.InstrumentsServiceGrpc.class);
     }
 
@@ -28,17 +29,13 @@ public class Instruments extends Service {
      * @return Список торговых площадок
      * @throws ServiceException
      */
-    public TradingSchedulesResponse TradingSchedules(String Exchange, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
+    public TradingSchedulesResponse TradingSchedules(String Exchange, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to) throws ServiceException {
         var build = TradingSchedulesRequest.newBuilder();
         if (Exchange != null) {
             build.setExchange(Exchange);
         }
-        if (from != null) {
-            build.setFrom(from);
-        }
-        if (to != null) {
-            build.setTo(to);
-        }
+        build.setFrom(from);
+        build.setTo(to);
         return CallMethod(
                 InstrumentsServiceGrpc.getTradingSchedulesMethod(),
                 build.build()
@@ -253,20 +250,14 @@ public class Instruments extends Service {
      * @param figi Figi-идентификатор инструмента.
      * @param from Начало запрашиваемого периода в часовом поясе UTC.
      * @param to Окончание запрашиваемого периода в часовом поясе UTC.
-     * @return Массив операций начисления купонов.
+     * @return Массив операций начисления купонов по облигации.
      * @throws ServiceException
      */
-    public GetAccruedInterestsResponse GetAccruedInterests(String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
+    public GetAccruedInterestsResponse GetAccruedInterests(@Nonnull final String figi, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to) throws ServiceException {
         var build = GetAccruedInterestsRequest.newBuilder();
-        if (figi != null) {
-            build.setFigi(figi);
-        }
-        if (from != null) {
-            build.setFrom(from);
-        }
-        if (to != null) {
-            build.setTo(to);
-        }
+        build.setFigi(figi);
+        build.setFrom(from);
+        build.setTo(to);
         return CallMethod(
                 InstrumentsServiceGrpc.getGetAccruedInterestsMethod(),
                 build.build()
@@ -279,11 +270,9 @@ public class Instruments extends Service {
      * @return Размер гарантийного обеспечения по фьючерсу.
      * @throws ServiceException
      */
-    public GetFuturesMarginResponse GetFuturesMargin(String figi) throws ServiceException {
+    public GetFuturesMarginResponse GetFuturesMargin(@Nonnull final String figi) throws ServiceException {
         var build = GetFuturesMarginRequest.newBuilder();
-        if (figi != null) {
-            build.setFigi(figi);
-        }
+        build.setFigi(figi);
         return CallMethod(
                 InstrumentsServiceGrpc.getGetFuturesMarginMethod(),
                 build.build()
@@ -298,11 +287,9 @@ public class Instruments extends Service {
      * @return Массив событий выплаты дивидендов по инструменту.
      * @throws ServiceException
      */
-    public GetDividendsResponse GetDividends(String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
+    public GetDividendsResponse GetDividends(@Nonnull final String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws ServiceException {
         var build = GetDividendsRequest.newBuilder();
-        if (figi != null) {
-            build.setFigi(figi);
-        }
+        build.setFigi(figi);
         if (from != null) {
             build.setFrom(from);
         }

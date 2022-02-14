@@ -1,5 +1,6 @@
 package ru.yvpopov.tinkoffsdk.services;
 
+import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 import ru.yvpopov.tinkoffsdk.services.helpers.Service;
 import ru.tinkoff.piapi.contract.v1.*;
@@ -30,7 +31,7 @@ public class Accounts extends Service {
      * @throws ServiceException
      * Может возникать исключение если маржинальная торговля для счета выключена
      */
-    public GetMarginAttributesResponse GetMarginAttributes(String account_id) throws ServiceException {
+    public GetMarginAttributesResponse GetMarginAttributes(@Nonnull final String account_id) throws ServiceException {
         return CallMethod(
                 UsersServiceGrpc.getGetMarginAttributesMethod(),
                 GetMarginAttributesRequest.newBuilder().setAccountId(account_id).build()

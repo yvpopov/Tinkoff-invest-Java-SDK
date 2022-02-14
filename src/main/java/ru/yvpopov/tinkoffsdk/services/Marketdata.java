@@ -9,7 +9,7 @@ import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
 public class Marketdata extends Service {
 
-    public Marketdata(Communication communication) {
+    public Marketdata(@Nonnull final Communication communication) {
         super(communication, ru.tinkoff.piapi.contract.v1.MarketDataServiceGrpc.class);
     }
 
