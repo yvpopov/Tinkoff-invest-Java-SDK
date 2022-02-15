@@ -26,10 +26,6 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      * Описание лимитов. источник:
      * https://tinkoff.github.io/investAPI/load_history/
      *
-     * Интервал свечи	Допустимы период 1 минута	от 1 минут до 1 дня 5 минут	от 5
-     * минут до 1 дня 15 минут	от 15 минут до 1 дня 1 час	от 1 часа до 1 недели
-     * 1 день	от 1 дня до 1 года
-     *
      * @param to - конец периода
      * @param interval - интервал свечи
      * @return допустимый значение Timestamp начала периода
