@@ -74,7 +74,7 @@ public class Marketdata extends Service {
     /**
      *
      * @param figi Figi-идентификатор инструмента.
-     * @return Cтакана по инструменту
+     * @return Статус торгов по инструменту
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
      */
     public GetTradingStatusResponse GetTradingStatus(@Nonnull final String figi) throws ServiceException {
