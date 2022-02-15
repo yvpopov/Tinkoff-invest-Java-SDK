@@ -2,11 +2,9 @@ package ru.yvpopov.tinkoffsdk.services.child;
 
 import com.google.protobuf.Timestamp;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import javax.annotation.Nonnull;
 import ru.tinkoff.piapi.contract.v1.CandleInterval;
 import ru.tinkoff.piapi.contract.v1.GetCandlesResponse;
-import ru.tinkoff.piapi.contract.v1.HistoricCandle;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 import ru.yvpopov.tools.ConvertDateTime;
@@ -106,6 +104,15 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      */
     @Override
     public GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval) throws ServiceException {
+        return this.GetCandles(figi, from, to, interval, COUNTZERO_DEFAULT);
+    }
+
+    /**
+     * Колличество пустых ответов, после которых считаем что история закончилась (необходимо для таймфреймов ниже 1 часа)
+     */
+    private static final int COUNTZERO_DEFAULT = 7;
+
+    private GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval, int countzero) throws ServiceException {
         if (to == null) {
             to = new ConvertDateTime().toTimestamp();
         }
@@ -114,25 +121,15 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
             return super.GetCandles(figi, from, to, interval);
         } else {
             GetCandlesResponse gcr1 = super.GetCandles(figi, maxfrom, to, interval);
-            if (gcr1.getCandlesCount() > 0) {
-                GetCandlesResponse gcr0 = this.GetCandles(figi, from, getCandleMinus(maxfrom, interval), interval);
-                /*System.out.println(gcr0.getCandlesCount());
-                System.out.println(gcr1.getCandlesCount());*/
-                /*for(HistoricCandle candle : gcr1.getCandlesList()) {
-                    gcr0.getCandlesList().add(candle);
-                }*/
-                /*gcr1.getCandlesList().forEach(candle -> {
-                    gcr0.getCandlesList().add(candle);
-                });*/
- 
-                
+            if (gcr1.getCandlesCount() > 0 || countzero > 0) {
+                if (gcr1.getCandlesCount() == 0)
+                    countzero--;
+                else 
+                    countzero = COUNTZERO_DEFAULT;
+                System.out.println(gcr1.getCandlesCount());
+                GetCandlesResponse gcr0 = this.GetCandles(figi, from, getCandleMinus(maxfrom, interval), interval, countzero);
                 gcr0 = gcr0.toBuilder().addAllCandles(gcr1.getCandlesList()).build();
-                //System.out.println(gcr0.getCandlesCount());
-                /*ArrayList<HistoricCandle> gcr = new ArrayList<>(gcr0.getCandlesList());
-                gcr.addAll(gcr1.getCandlesList());
-                gcr0.getCandlesList() = gcr;*/
                 return gcr0;
-                //gcr0.getCandlesList().addAll(gcr1.getCandlesList());
             } else {
                 return gcr1;
             }
