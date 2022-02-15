@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ru.yvpopov.tools;
 
 import java.time.Instant;
@@ -10,24 +6,65 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-/*import java.util.Date;
-import java.util.Calendar;
-
- */
-
-/**
- *
- * @author yvpop
- */
 public class ConvertDateTime {
 
     java.time.Instant instant;
-    
+
     ZoneOffset zone;
+
+    public ConvertDateTime plus(long amountToAdd, ChronoUnit unit) {
+        if (amountToAdd == 0) {
+            return this;
+        }
+        Calendar cl1;
+        Calendar cl2;
+        switch (unit) {
+            case WEEKS -> {
+                return this.plus(amountToAdd * 7, ChronoUnit.DAYS);
+            }
+            case MONTHS -> {
+                cl1 = Calendar.getInstance();
+                cl2 = Calendar.getInstance();
+                cl2.setTimeInMillis(cl1.getTimeInMillis());
+                cl2.add(Calendar.MONTH, (int) amountToAdd);
+                return this.plus((cl2.getTimeInMillis() - cl1.getTimeInMillis()), ChronoUnit.MILLIS);
+            }
+            case YEARS -> {
+                cl1 = Calendar.getInstance();
+                cl2 = Calendar.getInstance();
+                cl2.setTimeInMillis(cl1.getTimeInMillis());
+                cl2.add(Calendar.YEAR, (int) amountToAdd);
+                return this.plus((cl2.getTimeInMillis() - cl1.getTimeInMillis()), ChronoUnit.MILLIS);
+            }
+            case DECADES -> {
+                return this.plus(amountToAdd * 10, ChronoUnit.YEARS);
+            }
+            case CENTURIES -> {
+                return this.plus(amountToAdd * 100, ChronoUnit.YEARS);
+            }
+            case MILLENNIA -> {
+                return this.plus(amountToAdd * 1000, ChronoUnit.YEARS);
+            }
+            case ERAS -> {
+                return this.plus(amountToAdd, ChronoUnit.FOREVER);
+            }
+            case FOREVER -> {
+                this.instant = (amountToAdd > 0 ? java.time.Instant.MAX : java.time.Instant.MIN);
+            }
+            default ->
+                instant = instant.plus(amountToAdd, unit);
+        }
+        return this;
+    }
+
+    public ConvertDateTime minus(long amountToAdd, ChronoUnit unit) {
+        return this.plus(amountToAdd * -1L, unit);
+    }
 
     public ZoneId getZone() {
         return zone;
@@ -37,12 +74,12 @@ public class ConvertDateTime {
         this.zone = zone;
         return this;
     }
-    
-    private ConvertDateTime(){        
+
+    public ConvertDateTime() {
+        this.instant = Instant.now();
         zone = ZoneId.systemDefault().getRules().getOffset(Instant.now());
     }
-            
-    
+
     public ConvertDateTime(Instant instant) {
         this();
         this.instant = instant;
@@ -83,7 +120,7 @@ public class ConvertDateTime {
         this.zone = zone;
         this.instant = localDateTime.toInstant(this.zone);
     }
-    
+
     public ConvertDateTime(java.sql.Timestamp sqltimestamp) {
         this();
         this.instant = sqltimestamp.toInstant();
@@ -128,6 +165,18 @@ public class ConvertDateTime {
 
     public com.google.protobuf.Timestamp toTimestamp() {
         return com.google.protobuf.Timestamp.newBuilder().setSeconds(instant.getEpochSecond()).setNanos(instant.getNano()).build();
+    }
+    
+    public static int Compare(com.google.protobuf.Timestamp x, com.google.protobuf.Timestamp y) {
+        int a = Long.compare(x.getSeconds(), y.getSeconds());
+        if (a == 0) 
+            a = Integer.compare(x.getNanos(),y.getNanos());
+        return a;
+    }
+
+    @Override
+    public String toString() {
+        return instant.toString();
     }
 
 }
