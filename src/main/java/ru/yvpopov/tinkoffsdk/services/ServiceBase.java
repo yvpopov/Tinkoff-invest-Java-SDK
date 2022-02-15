@@ -1,4 +1,4 @@
-package ru.yvpopov.tinkoffsdk.services.helpers;
+package ru.yvpopov.tinkoffsdk.services;
 
 import io.grpc.CallOptions;
 import io.grpc.Channel;
@@ -7,8 +7,9 @@ import java.lang.reflect.Method;
 import io.grpc.stub.*;
 import java.lang.reflect.InvocationTargetException;
 import ru.yvpopov.tinkoffsdk.Communication;
+import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
-public class Service {
+public class ServiceBase {
 
     private final Communication communication;
     private io.grpc.stub.AbstractBlockingStub stub = null;
@@ -25,7 +26,7 @@ public class Service {
         return (stub == null || stub.getCallOptions() == null ? CallOptions.DEFAULT : stub.getCallOptions());
     }
 
-    protected Service(Communication communication, Class ServiceGrpcClass) {
+    protected ServiceBase(Communication communication, Class ServiceGrpcClass) {
         this.communication = communication;
         try {
             Method method = ServiceGrpcClass.getMethod("newBlockingStub", io.grpc.Channel.class);

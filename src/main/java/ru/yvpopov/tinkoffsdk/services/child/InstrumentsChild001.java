@@ -21,9 +21,9 @@ import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
  * т.е. id_type = InstrumentIdType.INSTRUMENT_ID_TYPE_TICKER, id = "TIKER", class_code = null
  * @author yvpop
  */
-public class InstrumentsMod001 extends ru.yvpopov.tinkoffsdk.services.Instruments {
+public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instruments {
 
-    public InstrumentsMod001(Communication communication) {
+    public InstrumentsChild001(Communication communication) {
         super(communication);
         this.instrumentslist = new ArrayList<>();
         this.instrumentslist.clear();

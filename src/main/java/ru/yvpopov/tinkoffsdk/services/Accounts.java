@@ -2,11 +2,10 @@ package ru.yvpopov.tinkoffsdk.services;
 
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
-import ru.yvpopov.tinkoffsdk.services.helpers.Service;
 import ru.tinkoff.piapi.contract.v1.*;
 import ru.yvpopov.tinkoffsdk.Communication;
 
-public class Accounts extends Service {
+public class Accounts extends ServiceBase {
 
     public Accounts(Communication communication) {
         super(communication, ru.tinkoff.piapi.contract.v1.UsersServiceGrpc.class);

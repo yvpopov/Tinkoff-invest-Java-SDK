@@ -3,11 +3,10 @@ package ru.yvpopov.tinkoffsdk.services;
 import java.util.List;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.Service;
 import ru.tinkoff.piapi.contract.v1.*;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
-public class Marketdata extends Service {
+public class Marketdata extends ServiceBase {
 
     public Marketdata(@Nonnull final Communication communication) {
         super(communication, ru.tinkoff.piapi.contract.v1.MarketDataServiceGrpc.class);
@@ -27,7 +26,7 @@ public class Marketdata extends Service {
         build.setFigi(figi);
         build.setFrom(from);
         build.setTo(to);
-        if (interval != null) {
+        if (interval == null) {
             interval = CandleInterval.CANDLE_INTERVAL_DAY;
         }
         build.setInterval(interval);
