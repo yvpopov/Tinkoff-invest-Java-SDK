@@ -1,11 +1,11 @@
 package ru.yvpopov.tinkoffsdk;
 
-import ru.yvpopov.tinkoffsdk.services.child.InstrumentsMod001;
 import java.util.Arrays;
 import java.util.List;
 import ru.yvpopov.tinkoffsdk.services.*;
+import ru.yvpopov.tinkoffsdk.services.child.ServicesWithChild;
 
-public class TinkoffSDK {
+public class TinkoffSDK implements IAllServices{
 
     private List<String> tokens;
     private String address;
@@ -29,22 +29,35 @@ public class TinkoffSDK {
         return new Communication(this.tokens, this.address, ControlLimit);
     }
 
-    private InstrumentsMod001 instruments = null;
+    private Instruments instruments = null;
     private Accounts accounts = null;
     private Marketdata marketdata = null;
+    private ServicesWithChild serviceschild;
 
-    public InstrumentsMod001 getInstruments() {
+    /**
+     * 
+     * @return Последние версии сервисов, включая все модификации
+     */
+    
+    public ServicesWithChild getServicesWithChild() {
+        return serviceschild;
+    }
+
+    @Override
+    public Instruments getInstruments() {
         if (instruments == null)
-            instruments = new InstrumentsMod001(newCommunication());
+            instruments = new Instruments(newCommunication());
         return instruments;
     }
 
+    @Override
     public Accounts getAccounts() {
         if (accounts == null)
             accounts = new Accounts(newCommunication());
         return accounts;
     }
 
+    @Override
     public Marketdata getMarketdata() {
         if (marketdata == null)
             marketdata = new Marketdata(newCommunication());
@@ -54,6 +67,7 @@ public class TinkoffSDK {
     public TinkoffSDK(List<String> tokens, String address) {
         this.address = address;
         this.tokens = tokens;
+        this.serviceschild = new ServicesWithChild(this);
     }
 
 }
