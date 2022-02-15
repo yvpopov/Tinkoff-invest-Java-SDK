@@ -13,16 +13,17 @@ import ru.tinkoff.piapi.contract.v1.InstrumentRequest;
 import ru.tinkoff.piapi.contract.v1.InstrumentStatus;
 import ru.tinkoff.piapi.contract.v1.Share;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.Instruments;
 import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
 /**
- *
+ * В методах InstrumentBy (где инструмент Bond, Currency, Etf, Future, Share и т.д.)
+ * можно делать запрос по Тикеру, без указания class_code
+ * т.е. id_type = InstrumentIdType.INSTRUMENT_ID_TYPE_TICKER, id = "TIKER", class_code = null
  * @author yvpop
  */
-public class InstrumentsMod extends Instruments {
+public class InstrumentsMod001 extends ru.yvpopov.tinkoffsdk.services.Instruments {
 
-    public InstrumentsMod(Communication communication) {
+    public InstrumentsMod001(Communication communication) {
         super(communication);
         this.instrumentslist = new ArrayList<>();
         this.instrumentslist.clear();

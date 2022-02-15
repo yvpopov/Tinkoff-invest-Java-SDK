@@ -1,6 +1,6 @@
 package ru.yvpopov.tinkoffsdk;
 
-import ru.yvpopov.tinkoffsdk.services.child.InstrumentsMod;
+import ru.yvpopov.tinkoffsdk.services.child.InstrumentsMod001;
 import java.util.Arrays;
 import java.util.List;
 import ru.yvpopov.tinkoffsdk.services.*;
@@ -29,13 +29,13 @@ public class TinkoffSDK {
         return new Communication(this.tokens, this.address, ControlLimit);
     }
 
-    private InstrumentsMod instruments = null;
+    private InstrumentsMod001 instruments = null;
     private Accounts accounts = null;
     private Marketdata marketdata = null;
 
-    public InstrumentsMod getInstruments() {
+    public InstrumentsMod001 getInstruments() {
         if (instruments == null)
-            instruments = new InstrumentsMod(newCommunication());
+            instruments = new InstrumentsMod001(newCommunication());
         return instruments;
     }
 
