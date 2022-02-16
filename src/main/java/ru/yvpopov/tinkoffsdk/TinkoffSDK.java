@@ -5,7 +5,7 @@ import java.util.List;
 import ru.yvpopov.tinkoffsdk.services.*;
 import ru.yvpopov.tinkoffsdk.services.child.ServicesWithChild;
 
-public class TinkoffSDK implements IAllServices{
+public class TinkoffSDK {
 
     private List<String> tokens;
     private String address;
@@ -29,53 +29,30 @@ public class TinkoffSDK implements IAllServices{
         return new Communication(this.tokens, this.address, ControlLimit);
     }
 
-    private Instruments instruments = null;
-    private Accounts accounts = null;
-    private Marketdata marketdata = null;
-    private Operations operations = null;
     private ServicesWithChild serviceschild;
+
+    private Services services;
+
+    /**
+     * 
+     * @return Исходные версии сервисов, без модификаций 
+     */
+    public Services getServices() {
+        return services;
+    }
 
     /**
      * 
      * @return Последние версии сервисов, включая все модификации
      */
-    
     public ServicesWithChild getServicesWithChild() {
         return serviceschild;
     }
 
-    @Override
-    public Instruments getInstruments() {
-        if (instruments == null)
-            instruments = new Instruments(newCommunication());
-        return instruments;
-    }
-
-    @Override
-    public Accounts getAccounts() {
-        if (accounts == null)
-            accounts = new Accounts(newCommunication());
-        return accounts;
-    }
-
-    @Override
-    public Marketdata getMarketdata() {
-        if (marketdata == null)
-            marketdata = new Marketdata(newCommunication());
-        return marketdata;
-    }
-    
-    @Override
-    public Operations getOperations() {
-        if (operations == null)
-            operations = new Operations(newCommunication());
-        return operations;
-    }
-    
-    
     public TinkoffSDK(List<String> tokens, String address) {
         this.address = address;
         this.tokens = tokens;
+        this.services = new Services(this);
         this.serviceschild = new ServicesWithChild(this);
     }
 

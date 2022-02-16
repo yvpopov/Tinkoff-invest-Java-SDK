@@ -100,6 +100,9 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      */
     @Override
     public GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval) throws ServiceException {
+        if (interval == null) {
+            interval = CandleInterval.CANDLE_INTERVAL_DAY;
+        }
         return this.GetCandles(figi, from, to, interval, COUNTZERO_DEFAULT);
     }
 

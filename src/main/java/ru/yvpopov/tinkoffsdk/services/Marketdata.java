@@ -21,14 +21,11 @@ public class Marketdata extends ServiceBase {
      * @return Cвечи по инструменту
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
      */
-    public GetCandlesResponse GetCandles(@Nonnull final String figi, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to, CandleInterval interval) throws ServiceException {
+    public GetCandlesResponse GetCandles(@Nonnull final String figi, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to, @Nonnull final CandleInterval interval) throws ServiceException {
         var build = GetCandlesRequest.newBuilder();
         build.setFigi(figi);
         build.setFrom(from);
         build.setTo(to);
-        if (interval == null) {
-            interval = CandleInterval.CANDLE_INTERVAL_DAY;
-        }
         build.setInterval(interval);
         return CallMethod(
                 MarketDataServiceGrpc.getGetCandlesMethod(),
