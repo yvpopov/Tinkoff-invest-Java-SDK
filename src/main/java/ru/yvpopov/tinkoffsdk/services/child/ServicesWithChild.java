@@ -3,6 +3,7 @@ package ru.yvpopov.tinkoffsdk.services.child;
 import ru.yvpopov.tinkoffsdk.TinkoffSDK;
 import ru.yvpopov.tinkoffsdk.services.Accounts;
 import ru.yvpopov.tinkoffsdk.services.IAllServices;
+import ru.yvpopov.tinkoffsdk.services.Operations;
 import ru.yvpopov.tinkoffsdk.services.ServiceBase;
 
 /**
@@ -19,7 +20,6 @@ public class ServicesWithChild implements IAllServices{
     
     private InstrumentsChild001 instruments = null;
     private MarketdataChild001 marketdata = null;
-    private Accounts accounts = null;
     
     @Override
     public InstrumentsChild001 getInstruments() {
@@ -37,9 +37,12 @@ public class ServicesWithChild implements IAllServices{
 
     @Override
     public Accounts getAccounts() {
-        if (accounts == null)
-            accounts = new Accounts(sdk.newCommunication());
-        return accounts;
+        return sdk.getAccounts();
+    }
+
+    @Override
+    public Operations getOperations() {
+        return sdk.getOperations();
     }
     
 }

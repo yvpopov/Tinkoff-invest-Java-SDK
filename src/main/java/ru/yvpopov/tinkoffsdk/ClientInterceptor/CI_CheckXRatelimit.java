@@ -77,7 +77,6 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
      * @return Признак остатка лимита
      */
     private boolean isILimitRemain() {
-        System.out.printf("Debug LimitRemain{%d; %d; %d} \n", getIRatelimitRemain(), getIDateTimeRatelimitReset().getTimeInMillis(), Calendar.getInstance().getTimeInMillis());
         return (getIRatelimitRemain() > this.LimitRemainQueryForNextToken)
                 || (getIDateTimeRatelimitReset().getTimeInMillis() < Calendar.getInstance().getTimeInMillis());
     }

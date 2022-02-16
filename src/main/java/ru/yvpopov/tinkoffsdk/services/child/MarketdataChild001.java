@@ -122,7 +122,6 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
                     countzero--;
                 else 
                     countzero = COUNTZERO_DEFAULT;
-                System.out.println(gcr1.getCandlesCount());
                 GetCandlesResponse gcr0 = this.GetCandles(figi, from, getCandleMinus(maxfrom, interval), interval, countzero);
                 gcr0 = gcr0.toBuilder().addAllCandles(gcr1.getCandlesList()).build();
                 return gcr0;
@@ -131,5 +130,5 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
             }
         }
     }
-
+    
 }

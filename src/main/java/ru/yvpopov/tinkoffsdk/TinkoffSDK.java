@@ -32,6 +32,7 @@ public class TinkoffSDK implements IAllServices{
     private Instruments instruments = null;
     private Accounts accounts = null;
     private Marketdata marketdata = null;
+    private Operations operations = null;
     private ServicesWithChild serviceschild;
 
     /**
@@ -63,6 +64,14 @@ public class TinkoffSDK implements IAllServices{
             marketdata = new Marketdata(newCommunication());
         return marketdata;
     }
+    
+    @Override
+    public Operations getOperations() {
+        if (operations == null)
+            operations = new Operations(newCommunication());
+        return operations;
+    }
+    
     
     public TinkoffSDK(List<String> tokens, String address) {
         this.address = address;
