@@ -24,7 +24,14 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
     /**
      *
      * Описание лимитов. источник:
-     * https://tinkoff.github.io/investAPI/load_history/
+     * https://tinkoff.github.io/investAPI/load_history/ <br>
+     *
+     * Интервал свечи	Допустимы период <br>
+     * 1 минута	от 1 минут до 1 дня <br>
+     * 5 минут	от 5 минут до 1 дня <br>
+     * 15 минут	от 15 минут до 1 дня <br>
+     * 1 час	от 1 часа до 1 недели <br>
+     * 1 день	от 1 дня до 1 года <br>
      *
      * @param to - конец периода
      * @param interval - интервал свечи
@@ -107,7 +114,8 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
     }
 
     /**
-     * Колличество пустых ответов, после которых считаем что история закончилась (необходимо для таймфреймов ниже 1 часа)
+     * Колличество пустых ответов, после которых считаем что история закончилась
+     * (необходимо для таймфреймов ниже 1 часа)
      */
     private static final int COUNTZERO_DEFAULT = 7;
 
@@ -121,10 +129,11 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
         } else {
             GetCandlesResponse gcr1 = super.GetCandles(figi, maxfrom, to, interval);
             if (gcr1.getCandlesCount() > 0 || countzero > 0) {
-                if (gcr1.getCandlesCount() == 0)
+                if (gcr1.getCandlesCount() == 0) {
                     countzero--;
-                else 
+                } else {
                     countzero = COUNTZERO_DEFAULT;
+                }
                 GetCandlesResponse gcr0 = this.GetCandles(figi, from, getCandleMinus(maxfrom, interval), interval, countzero);
                 gcr0 = gcr0.toBuilder().addAllCandles(gcr1.getCandlesList()).build();
                 return gcr0;
@@ -133,5 +142,5 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
             }
         }
     }
-    
+
 }

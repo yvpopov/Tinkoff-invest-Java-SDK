@@ -17,7 +17,7 @@ import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
 
 /**
  * В методах InstrumentBy (где инструмент Bond, Currency, Etf, Future, Share и т.д.)
- * можно делать запрос по Тикеру, без указания class_code
+ * можно делать запрос по Тикеру, без указания class_code 
  * т.е. id_type = InstrumentIdType.INSTRUMENT_ID_TYPE_TICKER, id = "TIKER", class_code = null
  * @author yvpop
  */
