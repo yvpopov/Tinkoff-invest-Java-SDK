@@ -19,6 +19,7 @@ public class Services implements IAllServices {
     private Accounts accounts = null;
     private Marketdata marketdata = null;
     private Operations operations = null;
+    private Orders orders = null;
     
 
     public Services(TinkoffSDK sdk) {
@@ -55,6 +56,13 @@ public class Services implements IAllServices {
         if (operations == null)
             operations = new Operations(newCommunication());
         return operations;
+    }
+
+    @Override
+    public Orders getOrders() {
+        if (orders == null)
+            orders = new Orders(newCommunication());
+        return orders;
     }
     
 }

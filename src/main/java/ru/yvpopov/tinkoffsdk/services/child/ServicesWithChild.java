@@ -5,6 +5,7 @@ import ru.yvpopov.tinkoffsdk.TinkoffSDK;
 import ru.yvpopov.tinkoffsdk.services.Accounts;
 import ru.yvpopov.tinkoffsdk.services.IAllServices;
 import ru.yvpopov.tinkoffsdk.services.Operations;
+import ru.yvpopov.tinkoffsdk.services.Orders;
 import ru.yvpopov.tinkoffsdk.services.ServiceBase;
 
 /**
@@ -49,6 +50,11 @@ public class ServicesWithChild implements IAllServices{
     @Override
     public Operations getOperations() {
         return sdk.getServices().getOperations();
+    }
+
+    @Override
+    public Orders getOrders() {
+        return sdk.getServices().getOrders();
     }
     
 }
