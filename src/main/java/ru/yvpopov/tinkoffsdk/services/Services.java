@@ -20,6 +20,8 @@ public class Services implements IAllServices {
     private Marketdata marketdata = null;
     private Operations operations = null;
     private Orders orders = null;
+    private StopOrders stoporders = null;
+    private Sandbox sandbox = null;
     
 
     public Services(TinkoffSDK sdk) {
@@ -63,6 +65,20 @@ public class Services implements IAllServices {
         if (orders == null)
             orders = new Orders(newCommunication());
         return orders;
+    }
+
+    @Override
+    public StopOrders getStopOrders() {
+        if (stoporders == null)
+            stoporders = new StopOrders(newCommunication());
+        return stoporders;
+    }
+
+    @Override
+    public Sandbox getSandbox() {
+        if (sandbox == null)
+            sandbox = new Sandbox(newCommunication());
+        return sandbox;
     }
     
 }

@@ -6,7 +6,9 @@ import ru.yvpopov.tinkoffsdk.services.Accounts;
 import ru.yvpopov.tinkoffsdk.services.IAllServices;
 import ru.yvpopov.tinkoffsdk.services.Operations;
 import ru.yvpopov.tinkoffsdk.services.Orders;
+import ru.yvpopov.tinkoffsdk.services.Sandbox;
 import ru.yvpopov.tinkoffsdk.services.ServiceBase;
+import ru.yvpopov.tinkoffsdk.services.StopOrders;
 
 /**
  * Модифицированные классы сервисов
@@ -57,4 +59,13 @@ public class ServicesWithChild implements IAllServices{
         return sdk.getServices().getOrders();
     }
     
+    @Override
+    public StopOrders getStopOrders() {
+        return sdk.getServices().getStopOrders();
+    }
+    
+    @Override
+    public Sandbox getSandbox() {
+        return sdk.getServices().getSandbox();
+    }    
 }

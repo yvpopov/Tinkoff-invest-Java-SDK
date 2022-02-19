@@ -55,11 +55,11 @@ public interface IAllServices {
      * 3. получение списка стоп-заявок. <br>
      * @return 
      */
-    //public ServiceBase getStopOrders();
+    public ServiceBase getStopOrders();
     
     /**
      * Сервис для работы с песочницей TINKOFF INVEST API
      * @return 
      */
-    //public ServiceBase getSandbox();
+    public ServiceBase getSandbox();
 }
