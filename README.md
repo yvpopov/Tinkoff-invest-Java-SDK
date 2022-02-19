@@ -1,6 +1,5 @@
 # Tinkoff-invest-Java-SDK
  <h2><b>Java SDK for Tinkoff-invest API(gRPC)</b></h2><br/>
-  (в разработке)<br/>
 
 За основу в SDK взяты <a href="https://github.com/Tinkoff/investAPI/tree/main/src/docs/contracts">Protobuf-файлы сервиса из официального API Tinkoff</a>.<br/>
 

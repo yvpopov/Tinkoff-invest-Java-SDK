@@ -90,7 +90,23 @@ public class Sandbox extends ServiceBase {
         );
     }
 
-   /**
+    /**
+     *
+     * @param account_id - Номер счёта.
+     * @return Информация о торговом поручении.
+     * @throws ServiceException
+     */
+    public GetOrdersResponse GetSandboxOrders(
+            @Nonnull final String account_id
+    ) throws ServiceException {
+        var build =   GetOrdersRequest.newBuilder()
+                .setAccountId(account_id);
+        return CallMethod(
+                SandboxServiceGrpc.getGetSandboxOrdersMethod(),
+                build.build()
+        );
+    }    
+    /**
      *
      * @param account_id Номер счёта.
      * @param order_id Идентификатор заявки.
@@ -105,7 +121,7 @@ public class Sandbox extends ServiceBase {
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
-                OrdersServiceGrpc.getCancelOrderMethod(),
+                SandboxServiceGrpc.getCancelSandboxOrderMethod(),
                 build.build()
         );
     }
@@ -125,12 +141,82 @@ public class Sandbox extends ServiceBase {
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
-                OrdersServiceGrpc.getGetOrderStateMethod(),
+                SandboxServiceGrpc.getGetSandboxOrderStateMethod(),
+                build.build()
+        );
+    }
+    
+    /**
+     *
+     * @param account_id Идентификатор счета клиента
+     * @return Список позиций по счёту
+     * @throws ServiceException
+     */
+    public PositionsResponse GetSandboxPositions(@Nonnull final String account_id) throws ServiceException {
+        var build = PositionsRequest.newBuilder();
+        build.setAccountId(account_id);
+        return CallMethod(
+                SandboxServiceGrpc.getGetSandboxPositionsMethod(),
+                build.build()
+        );
+    }
+    
+    /**
+     *
+     * @param account_id Идентификатор счета клиента
+     * @param from Начало периода (по UTC)
+     * @param to Окончание периода (по UTC)
+     * @param operationstate Статус запрашиваемых операций
+     * @param figi Figi-идентификатор инструмента для фильтрации
+     * @return Список операций по счету
+     * @throws ServiceException
+     */
+    public OperationsResponse GetOperations(@Nonnull final String account_id,
+            @Nonnull final com.google.protobuf.Timestamp from,
+            @Nonnull final com.google.protobuf.Timestamp to,
+            OperationState operationstate,
+            String figi) throws ServiceException {
+        var build = OperationsRequest.newBuilder();
+        build.setAccountId(account_id);
+        build.setFrom(from);
+        build.setTo(to);
+        if (operationstate != null) {
+            build.setState(operationstate);
+        }
+        if (figi != null) {
+            build.setFigi(figi);
+        }
+        return CallMethod(
+                SandboxServiceGrpc.getGetSandboxOperationsMethod(),
                 build.build()
         );
     }
 
+    /**
+     *
+     * @param account_id Идентификатор счета клиента
+     * @return Текущий портфель по счёту
+     * @throws ServiceException
+     */
+    public PortfolioResponse GetSandboxPortfolio(@Nonnull final String account_id) throws ServiceException {
+        var build = PortfolioRequest.newBuilder();
+        build.setAccountId(account_id);
+        return CallMethod(
+                SandboxServiceGrpc.getGetSandboxPortfolioMethod(),
+                build.build()
+        );
+    }
     
-    
+    public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, Common.Currency currency) throws ServiceException {
+        if (currency == null)
+            currency = Common.Currency.RUB;
+        var build = SandboxPayInRequest.newBuilder()
+                .setAccountId(account_id)
+                .setAmount(Common.BigDecimaltoMoneyValue(price, currency));
+        return CallMethod(
+                SandboxServiceGrpc.getSandboxPayInMethod(),
+                build.build()
+        );    
+    }
 
 }
