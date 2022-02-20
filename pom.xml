@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
-    <artifactId>inkoff-invest-Java-SDK</artifactId>
+    <artifactId>Tinkoff-invest-Java-SDK</artifactId>
     <version>1.0.0-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
