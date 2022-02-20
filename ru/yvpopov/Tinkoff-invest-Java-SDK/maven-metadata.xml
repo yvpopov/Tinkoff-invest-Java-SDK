@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ru.yvpopov</groupId>
+  <artifactId>Tinkoff-invest-Java-SDK</artifactId>
+  <versioning>
+    <release>1.0.0-Beta</release>
+    <versions>
+      <version>1.0.0-Beta</version>
+    </versions>
+    <lastUpdated>20220220133501</lastUpdated>
+  </versioning>
+</metadata>
