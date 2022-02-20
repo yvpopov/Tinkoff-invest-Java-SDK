@@ -52,4 +52,18 @@
                 <exec.appArgs></exec.appArgs>
             </properties>
         </action>
+        <action>
+            <actionName>CUSTOM-Deploy</actionName>
+            <displayName>Deploy</displayName>
+            <goals>
+                <goal>deploy</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-Clean</actionName>
+            <displayName>Clean</displayName>
+            <goals>
+                <goal>clean</goal>
+            </goals>
+        </action>
     </actions>
