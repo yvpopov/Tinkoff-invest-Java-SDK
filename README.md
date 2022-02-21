@@ -21,10 +21,10 @@ System.out.printf("Список счетов \n%s", accounts.toString());</code>
 Доступ к сервисам организован через 2 метода: <br/><br/>
 <i><b>Базовый набор сервисов:</b></i><br/>
 Реализованы методы описанные <a href="https://tinkoff.github.io/investAPI/">официальной документации</a> с минимальными изменениями в параметрах методов (<i>например вместо Quotation передаем BigDecimal и т.п.</i>)
-<pre><code>new TinkoffSDK(token).getServices()</code></pre>
+<pre><code>new TinkoffSDK(<a href="https://www.tinkoff.ru/invest/settings/">token</a>).getServices()</code></pre>
 <i><b>Модифицированный набор сервисов:</b></i><br/>
 В основе базовые классы сервисов с дополнительным(модифицированным) функционалом. Например: <ul><li>Получение инструмента по Тикеру(без указания class_code)</li> <li>Получения истории свечей за произвольный период, если интервал выходит за <a href="https://tinkoff.github.io/investAPI/load_history/">ограничения</a>, то будет выполнен в несколько запросов)</li><li>и др.</li></ul>
-<pre><code>new TinkoffSDK(token).getServicesWithChild()</code></pre>
+<pre><code>new TinkoffSDK(<a href="https://www.tinkoff.ru/invest/settings/">token</a>).getServicesWithChild()</code></pre>
 
 <b>Подключение через Maven.</b><br/>
 
