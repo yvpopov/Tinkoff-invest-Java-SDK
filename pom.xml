@@ -5,9 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
     <artifactId>Tinkoff-invest-Java-SDK</artifactId>
-    <version>1.0.3-Beta</version>
+    <version>1.0.3.2-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
+    <description>Java SDK for Tinkoff-invest API(gRPC)</description>
     
     <repositories>
         <repository>
@@ -25,6 +26,8 @@
         <grpc.version>1.44.0</grpc.version>
         <proto.version>4.0.0-rc-2</proto.version>
         <github.global.server>github</github.global.server>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>14</maven.compiler.source>
         <maven.compiler.target>14</maven.compiler.target>
         <java.version>14</java.version>
@@ -50,7 +53,8 @@
         <plugins>
             <!-- Сборка -->
             <plugin>
-               <artifactId>maven-compiler-plugin</artifactId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -74,7 +78,9 @@
                     <noJekyll>true</noJekyll>
                     <outputDirectory>${project.build.directory}/mvn-repo</outputDirectory>
                     <branch>refs/heads/mvn-repo</branch>
-                    <includes><include>**/*</include></includes>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
                     <repositoryName>Tinkoff-invest-Java-SDK</repositoryName>
                     <repositoryOwner>yvpopov</repositoryOwner>
                 </configuration>
@@ -84,6 +90,34 @@
                             <goal>site</goal>
                         </goals>
                         <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Добавление исходного кода в mvn-repo -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Добавление Java doc в mvn-repo -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.3.2</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -134,7 +168,6 @@
             </plugin>
         </plugins>
     </build>
-    <description>Java SDK for Tinkoff-invest API(gRPC)</description>
     
     <dependencies>
         <dependency>

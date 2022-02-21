@@ -62,8 +62,17 @@
         <action>
             <actionName>CUSTOM-Clean</actionName>
             <displayName>Clean</displayName>
+            <preAction>build-with-dependencies</preAction>
             <goals>
                 <goal>clean</goal>
+            </goals>
+        </action>
+        <action>
+            <actionName>CUSTOM-Clean &amp; Deploy</actionName>
+            <displayName>Clean &amp; Deploy</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>deploy</goal>
             </goals>
         </action>
     </actions>
