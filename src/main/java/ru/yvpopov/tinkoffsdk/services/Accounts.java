@@ -1,7 +1,7 @@
 package ru.yvpopov.tinkoffsdk.services;
 
 import javax.annotation.Nonnull;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 import ru.tinkoff.piapi.contract.v1.*;
 import ru.yvpopov.tinkoffsdk.Communication;
 
@@ -14,9 +14,9 @@ public class Accounts extends ServiceBase {
     /**
      *
      * @return Информация о счёте.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public GetAccountsResponse GetAccounts() throws ServiceException {
+    public GetAccountsResponse GetAccounts() throws TinkoffServiceException {
         return CallMethod(
                 UsersServiceGrpc.getGetAccountsMethod(),
                 GetAccountsRequest.newBuilder().build()
@@ -27,10 +27,10 @@ public class Accounts extends ServiceBase {
      *
      * @param account_id Идентификатор счёта пользователя.
      * @return Маржинальные показатели по счёту.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      * Может возникать исключение если маржинальная торговля для счета выключена
      */
-    public GetMarginAttributesResponse GetMarginAttributes(@Nonnull final String account_id) throws ServiceException {
+    public GetMarginAttributesResponse GetMarginAttributes(@Nonnull final String account_id) throws TinkoffServiceException {
         return CallMethod(
                 UsersServiceGrpc.getGetMarginAttributesMethod(),
                 GetMarginAttributesRequest.newBuilder().setAccountId(account_id).build()
@@ -40,9 +40,9 @@ public class Accounts extends ServiceBase {
     /**
      *
      * @return Текущие лимиты пользователя.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public GetUserTariffResponse GetUserTariff() throws ServiceException {
+    public GetUserTariffResponse GetUserTariff() throws TinkoffServiceException {
         return CallMethod(
                 UsersServiceGrpc.getGetUserTariffMethod(),
                 GetUserTariffRequest.newBuilder().build()
@@ -52,9 +52,9 @@ public class Accounts extends ServiceBase {
     /**
      *
      * @return Информация о пользователе.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public GetInfoResponse GetInfo() throws ServiceException {
+    public GetInfoResponse GetInfo() throws TinkoffServiceException {
         return CallMethod(
                 UsersServiceGrpc.getGetInfoMethod(),
                 GetInfoRequest.newBuilder().build()

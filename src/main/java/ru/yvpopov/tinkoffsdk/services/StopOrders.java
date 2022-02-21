@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import ru.tinkoff.piapi.contract.v1.*;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class StopOrders extends ServiceBase {
     
@@ -24,7 +24,7 @@ public class StopOrders extends ServiceBase {
      * @param stop_order_type Тип заявки
      * @param expire_date Дата и время окончания действия стоп-заявки в часовом поясе UTC. Для ExpirationType = GoodTillDate заполнение обязательно.
      * @return Результат выставления стоп-заявки.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public PostStopOrderResponse PostOrder(
             @Nonnull final String figi,
@@ -35,7 +35,7 @@ public class StopOrders extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final StopOrderExpirationType expiration_type,
             @Nonnull final StopOrderType stop_order_type,
-            com.google.protobuf.Timestamp expire_date) throws ServiceException {
+            com.google.protobuf.Timestamp expire_date) throws TinkoffServiceException {
         var build = PostStopOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
@@ -58,11 +58,11 @@ public class StopOrders extends ServiceBase {
      *
      * @param account_id Номер счёта.
      * @return Список активных стоп-заявок.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public GetStopOrdersResponse GetStopOrders(
             @Nonnull final String account_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = GetStopOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
@@ -75,11 +75,11 @@ public class StopOrders extends ServiceBase {
      *
      * @param account_id Номер счёта.
      * @return Результат отмены выставленной стоп-заявки.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public CancelStopOrderResponse CancelStopOrder(
             @Nonnull final String account_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = CancelStopOrderRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(

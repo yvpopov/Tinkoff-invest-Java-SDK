@@ -44,7 +44,7 @@ System.out.printf("Список счетов \n%s", accounts.toString());</code>
         &lt;dependency&gt;
             &lt;groupId&gt;ru.yvpopov&lt;/groupId&gt;
             &lt;artifactId&gt;Tinkoff-invest-Java-SDK&lt;/artifactId&gt;
-            &lt;version&gt;1.0.1-Beta&lt;/version&gt;
+            &lt;version&gt;1.0.2-Beta&lt;/version&gt;
         &lt;/dependency&gt;
     &lt;/dependencies&gt;
 </code></pre>

@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import ru.tinkoff.piapi.contract.v1.*;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class Sandbox extends ServiceBase {
 
@@ -15,9 +15,9 @@ public class Sandbox extends ServiceBase {
     /**
      *
      * @return Номер открытого счёта в песочнице.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public OpenSandboxAccountResponse OpenSandboxAccount() throws ServiceException {
+    public OpenSandboxAccountResponse OpenSandboxAccount() throws TinkoffServiceException {
         var build = OpenSandboxAccountRequest.newBuilder();
         return CallMethod(
                 SandboxServiceGrpc.getOpenSandboxAccountMethod(),
@@ -28,9 +28,9 @@ public class Sandbox extends ServiceBase {
     /**
      *
      * @return Метод получения счетов в песочнице.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public GetAccountsResponse GetSandboxAccounts() throws ServiceException {
+    public GetAccountsResponse GetSandboxAccounts() throws TinkoffServiceException {
         var build = ru.tinkoff.piapi.contract.v1.GetAccountsRequest.newBuilder();
         return CallMethod(
                 SandboxServiceGrpc.getGetSandboxAccountsMethod(),
@@ -42,9 +42,9 @@ public class Sandbox extends ServiceBase {
      *
      * @param account_id - Номер счёта
      * @return Метод закрытия счёта в песочнице.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public CloseSandboxAccountResponse CloseSandboxAccount(@Nonnull final String account_id) throws ServiceException {
+    public CloseSandboxAccountResponse CloseSandboxAccount(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = CloseSandboxAccountRequest.newBuilder()
                 .setAccountId(account_id);        
         return CallMethod(
@@ -64,7 +64,7 @@ public class Sandbox extends ServiceBase {
      * @param order_id Идентификатор запроса выставления поручения для целей
      * идемпотентности. Максимальная длина 36 символов.
      * @return Информация о выставлении поручения.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public PostOrderResponse PostSandboxOrder(
             @Nonnull final String figi,
@@ -73,7 +73,7 @@ public class Sandbox extends ServiceBase {
             @Nonnull final OrderDirection direction,
             @Nonnull final String account_id,
             @Nonnull final OrderType order_type,
-            String order_id) throws ServiceException {
+            String order_id) throws TinkoffServiceException {
         var build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
@@ -94,11 +94,11 @@ public class Sandbox extends ServiceBase {
      *
      * @param account_id - Номер счёта.
      * @return Информация о торговом поручении.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public GetOrdersResponse GetSandboxOrders(
             @Nonnull final String account_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build =   GetOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
@@ -111,12 +111,12 @@ public class Sandbox extends ServiceBase {
      * @param account_id Номер счёта.
      * @param order_id Идентификатор заявки.
      * @return Список активных торговых поручений.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public  CancelOrderResponse CancelSandboxOrder(
             @Nonnull final String account_id,
             @Nonnull final String order_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = CancelOrderRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
@@ -131,12 +131,12 @@ public class Sandbox extends ServiceBase {
      * @param account_id - Номер счёта.
      * @param order_id - Идентификатор заявки.
      * @return Информация о торговом поручении.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public OrderState GetSandboxOrderState(
             @Nonnull final String account_id,
             @Nonnull final String order_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build =  GetOrderStateRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
@@ -150,9 +150,9 @@ public class Sandbox extends ServiceBase {
      *
      * @param account_id Идентификатор счета клиента
      * @return Список позиций по счёту
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public PositionsResponse GetSandboxPositions(@Nonnull final String account_id) throws ServiceException {
+    public PositionsResponse GetSandboxPositions(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = PositionsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
@@ -169,13 +169,13 @@ public class Sandbox extends ServiceBase {
      * @param operationstate Статус запрашиваемых операций
      * @param figi Figi-идентификатор инструмента для фильтрации
      * @return Список операций по счету
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public OperationsResponse GetOperations(@Nonnull final String account_id,
             @Nonnull final com.google.protobuf.Timestamp from,
             @Nonnull final com.google.protobuf.Timestamp to,
             OperationState operationstate,
-            String figi) throws ServiceException {
+            String figi) throws TinkoffServiceException {
         var build = OperationsRequest.newBuilder();
         build.setAccountId(account_id);
         build.setFrom(from);
@@ -196,9 +196,9 @@ public class Sandbox extends ServiceBase {
      *
      * @param account_id Идентификатор счета клиента
      * @return Текущий портфель по счёту
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public PortfolioResponse GetSandboxPortfolio(@Nonnull final String account_id) throws ServiceException {
+    public PortfolioResponse GetSandboxPortfolio(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = PortfolioRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
@@ -207,7 +207,7 @@ public class Sandbox extends ServiceBase {
         );
     }
     
-    public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, Common.Currency currency) throws ServiceException {
+    public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, Common.Currency currency) throws TinkoffServiceException {
         if (currency == null)
             currency = Common.Currency.RUB;
         var build = SandboxPayInRequest.newBuilder()

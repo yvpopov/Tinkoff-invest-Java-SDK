@@ -6,7 +6,7 @@ import javax.annotation.Nonnull;
 import ru.tinkoff.piapi.contract.v1.CandleInterval;
 import ru.tinkoff.piapi.contract.v1.GetCandlesResponse;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 import ru.yvpopov.tools.ConvertDateTime;
 
 /**
@@ -64,9 +64,9 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      * @param interval Интервал запрошенных свечей. (по умолчанию
      * CANDLE_INTERVAL_DAY)
      * @return Cвечи по инструменту за весь период
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public GetCandlesResponse GetCandles(@Nonnull final String figi, CandleInterval interval) throws ServiceException {
+    public GetCandlesResponse GetCandles(@Nonnull final String figi, CandleInterval interval) throws TinkoffServiceException {
         return this.GetCandles(figi, null, null, interval);
     }
 
@@ -103,10 +103,10 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      * @param interval Интервал запрошенных свечей. (по умолчанию
      * CANDLE_INTERVAL_DAY)
      * @return Cвечи по инструменту
-     * @throws ru.yvpopov.tinkoffsdk.services.helpers.ServiceException
+     * @throws ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException
      */
     @Override
-    public GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval) throws ServiceException {
+    public GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval) throws TinkoffServiceException {
         if (interval == null) {
             interval = CandleInterval.CANDLE_INTERVAL_DAY;
         }
@@ -119,7 +119,7 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      */
     private static final int COUNTZERO_DEFAULT = 7;
 
-    private GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval, int countzero) throws ServiceException {
+    private GetCandlesResponse GetCandles(@Nonnull final String figi, Timestamp from, Timestamp to, CandleInterval interval, int countzero) throws TinkoffServiceException {
         if (to == null) {
             to = new ConvertDateTime().toTimestamp();
         }

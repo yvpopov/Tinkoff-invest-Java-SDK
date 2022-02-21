@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 import io.grpc.stub.*;
 import java.lang.reflect.InvocationTargetException;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class ServiceBase {
 
@@ -43,13 +43,13 @@ public class ServiceBase {
      * @param method Вызываемый метод
      * @param req 
      * @return 
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    protected <ReqT, RespT> RespT CallMethod(MethodDescriptor<ReqT, RespT> method, ReqT req) throws ServiceException {
+    protected <ReqT, RespT> RespT CallMethod(MethodDescriptor<ReqT, RespT> method, ReqT req) throws TinkoffServiceException {
         try {
             return io.grpc.stub.ClientCalls.blockingUnaryCall(getChannel(), method, getCallOptions(), req);
         } catch (Exception ex) {
-            throw new ServiceException(getCommunication().getLastInputHeader().getMessage(), ex.fillInStackTrace());
+            throw new TinkoffServiceException(getCommunication().getLastInputHeader().getMessage(), ex.fillInStackTrace());
         }
     }
 

@@ -1,12 +1,12 @@
 package ru.yvpopov.tinkoffsdk.services.helpers;
 
-public class ServiceException extends Exception {
+public class TinkoffServiceException extends Exception {
 
-    public ServiceException(String message) {
+    public TinkoffServiceException(String message) {
         super(message);
     }
 
-    public ServiceException(String message, Throwable cause) {
+    public TinkoffServiceException(String message, Throwable cause) {
         super(message, cause);
     }
 

@@ -3,7 +3,7 @@ package ru.yvpopov.tinkoffsdk.services;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.tinkoff.piapi.contract.v1.*;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class Operations extends ServiceBase {
 
@@ -19,13 +19,13 @@ public class Operations extends ServiceBase {
      * @param operationstate Статус запрашиваемых операций
      * @param figi Figi-идентификатор инструмента для фильтрации
      * @return Список операций по счету
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public OperationsResponse GetOperations(@Nonnull final String account_id,
             @Nonnull final com.google.protobuf.Timestamp from,
             @Nonnull final com.google.protobuf.Timestamp to,
             OperationState operationstate,
-            String figi) throws ServiceException {
+            String figi) throws TinkoffServiceException {
         var build = OperationsRequest.newBuilder();
         build.setAccountId(account_id);
         build.setFrom(from);
@@ -46,9 +46,9 @@ public class Operations extends ServiceBase {
      *
      * @param account_id Идентификатор счета клиента
      * @return Текущий портфель по счёту
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public PortfolioResponse GetPortfolio(@Nonnull final String account_id) throws ServiceException {
+    public PortfolioResponse GetPortfolio(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = PortfolioRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
@@ -61,9 +61,9 @@ public class Operations extends ServiceBase {
      *
      * @param account_id Идентификатор счета клиента
      * @return Список позиций по счёту
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public PositionsResponse GetPositions(@Nonnull final String account_id) throws ServiceException {
+    public PositionsResponse GetPositions(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = PositionsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
@@ -76,9 +76,9 @@ public class Operations extends ServiceBase {
      *
      * @param account_id Идентификатор счета клиента
      * @return Доступный для вывода остаток
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
-    public WithdrawLimitsResponse GetWithdrawLimits(@Nonnull final String account_id) throws ServiceException {
+    public WithdrawLimitsResponse GetWithdrawLimits(@Nonnull final String account_id) throws TinkoffServiceException {
         var build = WithdrawLimitsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
@@ -95,7 +95,7 @@ public class Operations extends ServiceBase {
      * @param task_id Идентификатор задачи формирования брокерского отчёта
      * @param page Номер страницы отчета (начинается с 1), значение по умолчанию: 0
      * @return Брокерский отчет
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public BrokerReportResponse GetBrokerReport(
             @Nonnull final String account_id, 
@@ -103,7 +103,7 @@ public class Operations extends ServiceBase {
             com.google.protobuf.Timestamp to,
             @Nonnull final String task_id,
             int page
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = GenerateBrokerReportRequest.newBuilder();
         build.setAccountId(account_id);
         if (from != null) 
@@ -118,7 +118,7 @@ public class Operations extends ServiceBase {
     
     protected BrokerReportResponse GetBrokerReport(
             @Nonnull final GenerateBrokerReportRequest generate_broker_report_request,
-            @Nonnull final  GetBrokerReportRequest get_broker_report_request) throws ServiceException {
+            @Nonnull final  GetBrokerReportRequest get_broker_report_request) throws TinkoffServiceException {
         var build = BrokerReportRequest.newBuilder();
         build.setGenerateBrokerReportRequest(generate_broker_report_request);
         build.setGetBrokerReportRequest(get_broker_report_request);

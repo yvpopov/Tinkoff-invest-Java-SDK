@@ -5,7 +5,7 @@ import ru.tinkoff.piapi.contract.v1.*;
 
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class Orders extends ServiceBase {
 
@@ -24,7 +24,7 @@ public class Orders extends ServiceBase {
      * @param order_id Идентификатор запроса выставления поручения для целей
      * идемпотентности. Максимальная длина 36 символов.
      * @return Информация о выставлении поручения.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public PostOrderResponse PostOrder(
             @Nonnull final String figi,
@@ -34,7 +34,7 @@ public class Orders extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final OrderType order_type,
             String order_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
@@ -56,12 +56,12 @@ public class Orders extends ServiceBase {
      * @param account_id Номер счёта.
      * @param order_id Идентификатор заявки.
      * @return Результат отмены торгового поручения.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public CancelOrderResponse CancelOrder(
             @Nonnull final String account_id,
             @Nonnull final String order_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = CancelOrderRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
@@ -76,12 +76,12 @@ public class Orders extends ServiceBase {
      * @param account_id Номер счёта.
      * @param order_id Идентификатор заявки.
      * @return Информация о торговом поручении.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public OrderState GetOrderState(
             @Nonnull final String account_id,
             @Nonnull final String order_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = GetOrderStateRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
@@ -95,11 +95,11 @@ public class Orders extends ServiceBase {
      *
      * @param account_id Номер счёта.
      * @return Список активных торговых поручений.
-     * @throws ServiceException
+     * @throws TinkoffServiceException
      */
     public GetOrdersResponse GetOrders(
             @Nonnull final String account_id
-    ) throws ServiceException {
+    ) throws TinkoffServiceException {
         var build = GetOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(

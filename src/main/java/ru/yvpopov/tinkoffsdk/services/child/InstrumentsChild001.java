@@ -13,7 +13,7 @@ import ru.tinkoff.piapi.contract.v1.InstrumentRequest;
 import ru.tinkoff.piapi.contract.v1.InstrumentStatus;
 import ru.tinkoff.piapi.contract.v1.Share;
 import ru.yvpopov.tinkoffsdk.Communication;
-import ru.yvpopov.tinkoffsdk.services.helpers.ServiceException;
+import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 /**
  * В методах InstrumentBy (где инструмент Bond, Currency, Etf, Future, Share и т.д.)
@@ -51,7 +51,7 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
             this.renew = true;
         }
 
-        private void addInstrList() throws ServiceException {
+        private void addInstrList() throws TinkoffServiceException {
             switch (this.typeinstrument) {
                 case Bonds ->
                     Bonds(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
@@ -68,7 +68,7 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
             }
         }
 
-        private void RenewInstrumentList() throws ServiceException {
+        private void RenewInstrumentList() throws TinkoffServiceException {
             instrumentlist.clear();
             addInstrList();
             Collections.sort(instrumentlist);
@@ -97,7 +97,7 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
             if (this.renew) {
                 try {
                     RenewInstrumentList();
-                } catch (ServiceException ex) {
+                } catch (TinkoffServiceException ex) {
                     System.err.println(ex);
                 }
             }
