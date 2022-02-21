@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
     <artifactId>Tinkoff-invest-Java-SDK</artifactId>
-    <version>1.0.0-Beta</version>
+    <version>1.0.1-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
     
@@ -51,7 +51,6 @@
             <!-- Сборка -->
             <plugin>
                <artifactId>maven-compiler-plugin</artifactId>
-                <!--version>3.9.0</version-->
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -60,7 +59,7 @@
             <!-- Сборка для Maven -->
             <plugin>
                 <artifactId>maven-deploy-plugin</artifactId>
-                <version>2.8.1</version>
+                <version>3.0.0-M2</version>
                 <configuration>
                     <altDeploymentRepository>internal.repo::default::file://${project.build.directory}/mvn-repo</altDeploymentRepository>
                 </configuration>
@@ -141,7 +140,7 @@
         <dependency>
             <groupId>ru.yvpopov</groupId>
             <artifactId>ConvertDataTime</artifactId>
-            <version>1.4</version>
+            <version>1.5</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
