@@ -2,10 +2,11 @@ package ru.yvpopov.tinkoffsdk.services;
 
 import java.math.BigDecimal;
 import ru.tinkoff.piapi.contract.v1.*;
-
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
+import static ru.yvpopov.tinkoffsdk.tools.convertors.*;
+
 
 public class Orders extends ServiceBase {
 
@@ -38,7 +39,7 @@ public class Orders extends ServiceBase {
         var build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
-                .setPrice(Common.BigDecimaltoQuotation(price))
+                .setPrice(BigDecimaltoQuotation(price))
                 .setDirection(direction)
                 .setAccountId(account_id)
                 .setOrderType(order_type);

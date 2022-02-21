@@ -5,6 +5,7 @@ import ru.tinkoff.piapi.contract.v1.*;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
+import static ru.yvpopov.tinkoffsdk.tools.convertors.*;
 
 public class StopOrders extends ServiceBase {
     
@@ -39,8 +40,8 @@ public class StopOrders extends ServiceBase {
         var build = PostStopOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
-                .setPrice(Common.BigDecimaltoQuotation(price))
-                .setStopPrice(Common.BigDecimaltoQuotation(stop_price))
+                .setPrice(BigDecimaltoQuotation(price))
+                .setStopPrice(BigDecimaltoQuotation(stop_price))
                 .setDirection(direction)
                 .setAccountId(account_id)
                 .setExpirationType(expiration_type)

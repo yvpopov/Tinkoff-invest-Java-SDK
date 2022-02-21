@@ -5,6 +5,7 @@ import ru.tinkoff.piapi.contract.v1.*;
 import javax.annotation.Nonnull;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
+import static ru.yvpopov.tinkoffsdk.tools.convertors.*;
 
 public class Sandbox extends ServiceBase {
 
@@ -77,7 +78,7 @@ public class Sandbox extends ServiceBase {
         var build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
-                .setPrice(Common.BigDecimaltoQuotation(price))
+                .setPrice(BigDecimaltoQuotation(price))
                 .setDirection(direction)
                 .setAccountId(account_id)
                 .setOrderType(order_type);
@@ -207,12 +208,12 @@ public class Sandbox extends ServiceBase {
         );
     }
     
-    public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, Common.Currency currency) throws TinkoffServiceException {
+    public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, CurrencyEnum currency) throws TinkoffServiceException {
         if (currency == null)
-            currency = Common.Currency.RUB;
+            currency = CurrencyEnum.RUB;
         var build = SandboxPayInRequest.newBuilder()
                 .setAccountId(account_id)
-                .setAmount(Common.BigDecimaltoMoneyValue(price, currency));
+                .setAmount(BigDecimaltoMoneyValue(price, currency));
         return CallMethod(
                 SandboxServiceGrpc.getSandboxPayInMethod(),
                 build.build()

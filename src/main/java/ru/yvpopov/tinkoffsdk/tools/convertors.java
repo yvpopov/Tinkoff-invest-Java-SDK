@@ -1,20 +1,20 @@
-package ru.yvpopov.tinkoffsdk.services;
+package ru.yvpopov.tinkoffsdk.tools;
 
 import java.math.BigDecimal;
 import ru.tinkoff.piapi.contract.v1.MoneyValue;
 import ru.tinkoff.piapi.contract.v1.Quotation;
 
 
-public class Common {
+public class convertors {
     
-    public enum Currency {
+    public enum CurrencyEnum {
         RUB("RUB"),
         USD("USD"),
         EUR("EUR");
 
     private final String text;
         
-    Currency(final String text) {
+    CurrencyEnum(final String text) {
         this.text = text;
     }
         
@@ -24,7 +24,7 @@ public class Common {
     }        
     }
 
-    public static MoneyValue BigDecimaltoMoneyValue(BigDecimal value, Currency currency) {
+    public static MoneyValue BigDecimaltoMoneyValue(BigDecimal value, CurrencyEnum currency) {
         return MoneyValue.newBuilder()
                 .setCurrency(currency.toString())
                 .setUnits(value != null 
