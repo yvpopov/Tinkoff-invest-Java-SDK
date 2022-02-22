@@ -23,6 +23,11 @@ import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
  */
 public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instruments {
 
+    public enum TickerFindMode {
+        Hard, //Полное и однозначное соответствие
+        Soft  //Соответсвие с начала, однозначное
+    }
+    
     public InstrumentsChild001(Communication communication) {
         super(communication);
         this.instrumentslist = new ArrayList<>();
@@ -235,16 +240,40 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
     }
     
     private String GetFigiByTicker(TypeInstrument typeinstrument, String ticker) {
-        boolean renew = (LastRenewinstrumentslist.plus(1, java.time.temporal.ChronoUnit.DAYS).compareTo(Instant.now()) < 0);
-        return GetFigiByTicker(typeinstrument, ticker, renew);
+        return GetFigiByTicker(typeinstrument, ticker, TickerFindMode.Hard);
     }
 
-    private String GetFigiByTicker(TypeInstrument typeinstrument, String ticker, boolean Renew) {
+    /**
+     *
+     * @param typeinstrument - тип инструмента
+     * @param ticker - Тикер для поиска
+     * @param findmode - режим поиска
+     * Hard - Полное и однозначное соответствие
+     * Soft - Однозначное сравнение тикера сначала
+     * @return
+     */
+    public String GetFigiByTicker(TypeInstrument typeinstrument, String ticker, TickerFindMode findmode) {
+        boolean renew = (LastRenewinstrumentslist.plus(1, java.time.temporal.ChronoUnit.DAYS).compareTo(Instant.now()) < 0);
+        return GetFigiByTicker(typeinstrument, ticker, renew, findmode);
+    }
+
+    private String GetFigiByTicker(TypeInstrument typeinstrument, String ticker, boolean Renew, TickerFindMode findmode) {
         if (Renew) 
             RenewInstrumentList();
         ArrayList<InstrumentCache> aic = getInstrumentlist(typeinstrument);
         int i = aic.indexOf(new InstrumentCache(ticker));
-        return (i >= 0 ? aic.get(i).getFigi() : null);
+        if (i >= 0) 
+            return aic.get(i).getFigi();
+        if (findmode == TickerFindMode.Hard) return null;
+        int a=0;
+        String result = null;
+        for (InstrumentCache instrumentch : getInstrumentlist(typeinstrument))
+            if (instrumentch.getTicker().toUpperCase().startsWith(ticker.toUpperCase())) {
+                result = instrumentch.getFigi();
+                a++;
+            }
+        if (a>1) result = null;
+        return result;
     }
 
     @Override

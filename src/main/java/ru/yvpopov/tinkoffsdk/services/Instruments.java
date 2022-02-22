@@ -7,7 +7,7 @@ import ru.yvpopov.tinkoffsdk.Communication;
 
 public class Instruments extends ServiceBase {
 
-    protected enum TypeInstrument {
+    public enum TypeInstrument {
         Bonds,
         Etfs,
         Futures,
