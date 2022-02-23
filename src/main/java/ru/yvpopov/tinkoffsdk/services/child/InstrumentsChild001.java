@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ru.tinkoff.piapi.contract.v1.Bond;
 import ru.tinkoff.piapi.contract.v1.Currency;
 import ru.tinkoff.piapi.contract.v1.Etf;
@@ -22,6 +24,8 @@ import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
  * @author yvpop
  */
 public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instruments {
+    
+    private static final Logger LOG = Logger.getLogger(InstrumentsChild001.class.getName());
 
     public enum TickerFindMode {
         Hard, //Полное и однозначное соответствие
@@ -83,7 +87,6 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
                     InstrumentCache ic = instrumentlist.get(n);
                     int i = instrumentlist.indexOf(ic);
                     while (i >= 0) {
-                        //System.out.println("remove :" + instrumentlist.get(i).toString());
                         instrumentlist.remove(i);
                         i = instrumentlist.indexOf(ic);
                     }
@@ -103,7 +106,7 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
                 try {
                     RenewInstrumentList();
                 } catch (TinkoffServiceException ex) {
-                    System.err.println(ex);
+                    LOG.log(Level.SEVERE, null, ex);
                 }
             }
             return this.instrumentlist;

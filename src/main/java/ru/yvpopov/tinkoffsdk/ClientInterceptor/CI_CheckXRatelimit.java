@@ -8,6 +8,8 @@ import io.grpc.MethodDescriptor;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import static org.apache.commons.lang3.math.NumberUtils.toInt;
 import static org.apache.commons.lang3.time.DateUtils.parseDate;
 import ru.yvpopov.tinkoffsdk.Communication;
@@ -15,6 +17,8 @@ import ru.yvpopov.tinkoffsdk.Header.HeaderResponseTinkoff;
 
 public class CI_CheckXRatelimit extends CI_HeaderAttaching {
 
+    private static final Logger LOG = Logger.getLogger(CI_CheckXRatelimit.class.getName());
+    
     private HeaderResponseTinkoff LastHeaderResponse() {
         return getCommunication().getLastInputHeader();
     }
@@ -67,7 +71,7 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
         try {
             cal.setTime(parseDate(date, Locale.ENGLISH, parsePatterns));
         } catch (ParseException | java.lang.IllegalArgumentException ex) {
-            System.err.println(ex.fillInStackTrace().toString());
+            LOG.log(Level.SEVERE, null, ex);
         }
         return cal;
     }
@@ -98,15 +102,15 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
      */
     private void CheckLimit() {
         if (!isILimitRemain() && !NextToken()) {
-            System.out.printf("Limit expired to '%s'\n", getIDateTimeRatelimitReset().getTime());
+            LOG.log(Level.FINE, String.format("Limit expired to '%s'\n", getIDateTimeRatelimitReset().getTime()));
             long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + 1000;
             if (0 <= pause_ms) {
-                System.out.printf("Wail %d ms.\n", pause_ms);
+                LOG.log(Level.FINE, String.format("Wail %d ms.\n", pause_ms));
             }
             try {
                 Thread.sleep(pause_ms);
             } catch (InterruptedException ex) {
-                System.err.println(ex);
+                LOG.log(Level.SEVERE, null, ex);
             }
         }
     }

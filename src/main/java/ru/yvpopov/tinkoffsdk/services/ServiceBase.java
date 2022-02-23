@@ -6,10 +6,14 @@ import io.grpc.MethodDescriptor;
 import java.lang.reflect.Method;
 import io.grpc.stub.*;
 import java.lang.reflect.InvocationTargetException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
 
 public class ServiceBase {
+    
+    private static final Logger LOG = Logger.getLogger(ServiceBase.class.getName());
 
     private final Communication communication;
     private io.grpc.stub.AbstractBlockingStub stub = null;
@@ -32,7 +36,7 @@ public class ServiceBase {
             Method method = ServiceGrpcClass.getMethod("newBlockingStub", io.grpc.Channel.class);
             this.stub = (AbstractBlockingStub) method.invoke(ServiceGrpcClass, this.communication.getChannel());
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-            System.err.printf("ERROR: AbstractBlockingStub from '%s'.newBlockingStub(Channel) not created\nMessage: %s\nStackTrace: \n%s\n", ServiceGrpcClass.toString(), ex.getMessage(), ex.fillInStackTrace().toString());
+            LOG.log(Level.SEVERE, String.format("ERROR: AbstractBlockingStub from '%s'.newBlockingStub(Channel) not created\nMessage: %s\nStackTrace: \n%s\n", ServiceGrpcClass.toString(), ex.getMessage(), ex.fillInStackTrace().toString()));
         }
     }
 
