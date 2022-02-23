@@ -98,10 +98,10 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
      */
     private void CheckLimit() {
         if (!isILimitRemain() && !NextToken()) {
-            System.out.printf("Лимит исчерпан до '%s'\n", getIDateTimeRatelimitReset().getTime());
-            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis());
+            System.out.printf("Limit expired to '%s'\n", getIDateTimeRatelimitReset().getTime());
+            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + 1000;
             if (0 <= pause_ms) {
-                System.out.printf("Ждем %d мс.\n", pause_ms);
+                System.out.printf("Wail %d ms.\n", pause_ms);
             }
             try {
                 Thread.sleep(pause_ms);

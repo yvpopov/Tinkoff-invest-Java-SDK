@@ -25,3 +25,4 @@ hs_err_pid*
 target/*
 src/main/java/ru/tinkoff/piapi/*
 src/main/java/*.java 
+nbactions.xml
