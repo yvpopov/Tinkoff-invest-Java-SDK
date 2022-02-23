@@ -19,7 +19,7 @@ public class ServicesWithChild implements IAllServices{
     TinkoffSDK sdk;
 
     private InstrumentsChild001 instruments = null;
-    private MarketdataChild001 marketdata = null;
+    private MarketdataChild002 marketdata = null;
     
     public ServicesWithChild(TinkoffSDK sdk) {
         this.sdk = sdk;
@@ -38,9 +38,9 @@ public class ServicesWithChild implements IAllServices{
     }
 
     @Override
-    public MarketdataChild001 getMarketdata() {
+    public MarketdataChild002 getMarketdata() {
         if (marketdata == null)
-            marketdata = new MarketdataChild001(newCommunication());
+            marketdata = new MarketdataChild002(newCommunication(), getInstruments());
         return marketdata;
     }
 
