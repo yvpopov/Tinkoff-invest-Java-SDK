@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
     <artifactId>Tinkoff-invest-Java-SDK</artifactId>
-    <version>1.0.7-Beta</version>
+    <version>1.0.7.1-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
     <description>Java SDK for Tinkoff-invest API(gRPC)</description>

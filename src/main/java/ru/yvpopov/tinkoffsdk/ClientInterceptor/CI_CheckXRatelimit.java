@@ -103,7 +103,7 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
     private void CheckLimit() {
         if (!isILimitRemain() && !NextToken()) {
             LOG.log(Level.FINE, String.format("Limit expired to '%s'\n", getIDateTimeRatelimitReset().getTime()));
-            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + 1000;
+            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + 5000;
             if (0 <= pause_ms) {
                 LOG.log(Level.FINE, String.format("Wail %d ms.\n", pause_ms));
             }
