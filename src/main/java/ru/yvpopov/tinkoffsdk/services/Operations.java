@@ -26,7 +26,7 @@ public class Operations extends ServiceBase {
             @Nonnull final com.google.protobuf.Timestamp to,
             OperationState operationstate,
             String figi) throws TinkoffServiceException {
-        var build = OperationsRequest.newBuilder();
+        OperationsRequest.Builder build = OperationsRequest.newBuilder();
         build.setAccountId(account_id);
         build.setFrom(from);
         build.setTo(to);
@@ -49,7 +49,7 @@ public class Operations extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public PortfolioResponse GetPortfolio(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = PortfolioRequest.newBuilder();
+        PortfolioRequest.Builder build = PortfolioRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
                 OperationsServiceGrpc.getGetPortfolioMethod(),
@@ -64,7 +64,7 @@ public class Operations extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public PositionsResponse GetPositions(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = PositionsRequest.newBuilder();
+        PositionsRequest.Builder build = PositionsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
                 OperationsServiceGrpc.getGetPositionsMethod(),
@@ -79,7 +79,7 @@ public class Operations extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public WithdrawLimitsResponse GetWithdrawLimits(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = WithdrawLimitsRequest.newBuilder();
+        WithdrawLimitsRequest.Builder build = WithdrawLimitsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
                 OperationsServiceGrpc.getGetWithdrawLimitsMethod(),
@@ -104,13 +104,13 @@ public class Operations extends ServiceBase {
             @Nonnull final String task_id,
             int page
     ) throws TinkoffServiceException {
-        var build = GenerateBrokerReportRequest.newBuilder();
+        GenerateBrokerReportRequest.Builder build = GenerateBrokerReportRequest.newBuilder();
         build.setAccountId(account_id);
         if (from != null) 
             build.setFrom(from);
         if (to != null) 
             build.setFrom(to);
-        var build1 = GetBrokerReportRequest.newBuilder();
+        GetBrokerReportRequest.Builder build1 = GetBrokerReportRequest.newBuilder();
         build1.setTaskId(task_id);
         build1.setPage(page);
         return GetBrokerReport(build.build(), build1.build());
@@ -119,7 +119,7 @@ public class Operations extends ServiceBase {
     protected BrokerReportResponse GetBrokerReport(
             @Nonnull final GenerateBrokerReportRequest generate_broker_report_request,
             @Nonnull final  GetBrokerReportRequest get_broker_report_request) throws TinkoffServiceException {
-        var build = BrokerReportRequest.newBuilder();
+        BrokerReportRequest.Builder build = BrokerReportRequest.newBuilder();
         build.setGenerateBrokerReportRequest(generate_broker_report_request);
         build.setGetBrokerReportRequest(get_broker_report_request);
         return CallMethod(

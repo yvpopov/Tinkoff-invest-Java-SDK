@@ -38,7 +38,7 @@ public class CI_HeaderAttaching implements ClientInterceptor {
     protected Metadata getMetaDate() {
         String maintoken = getToken();
         Key key = Metadata.Key.of("Authorization", Metadata.ASCII_STRING_MARSHALLER);
-        var currentmeta = this.extraHeaders.get(key);
+        Object currentmeta = this.extraHeaders.get(key);
         String currenttoken = (currentmeta == null ? null : currentmeta.toString());
         if (!maintoken.equals(currenttoken)) {
             this.extraHeaders.removeAll(key);

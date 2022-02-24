@@ -19,7 +19,7 @@ public class Sandbox extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public OpenSandboxAccountResponse OpenSandboxAccount() throws TinkoffServiceException {
-        var build = OpenSandboxAccountRequest.newBuilder();
+        OpenSandboxAccountRequest.Builder build = OpenSandboxAccountRequest.newBuilder();
         return CallMethod(
                 SandboxServiceGrpc.getOpenSandboxAccountMethod(),
                 build.build()
@@ -32,7 +32,7 @@ public class Sandbox extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public GetAccountsResponse GetSandboxAccounts() throws TinkoffServiceException {
-        var build = ru.tinkoff.piapi.contract.v1.GetAccountsRequest.newBuilder();
+        GetAccountsRequest.Builder build = ru.tinkoff.piapi.contract.v1.GetAccountsRequest.newBuilder();
         return CallMethod(
                 SandboxServiceGrpc.getGetSandboxAccountsMethod(),
                 build.build()
@@ -46,7 +46,7 @@ public class Sandbox extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public CloseSandboxAccountResponse CloseSandboxAccount(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = CloseSandboxAccountRequest.newBuilder()
+        CloseSandboxAccountRequest.Builder build = CloseSandboxAccountRequest.newBuilder()
                 .setAccountId(account_id);        
         return CallMethod(
                 SandboxServiceGrpc.getCloseSandboxAccountMethod(),
@@ -75,7 +75,7 @@ public class Sandbox extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final OrderType order_type,
             String order_id) throws TinkoffServiceException {
-        var build = PostOrderRequest.newBuilder();
+        PostOrderRequest.Builder build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
                 .setPrice(BigDecimaltoQuotation(price))
@@ -100,7 +100,7 @@ public class Sandbox extends ServiceBase {
     public GetOrdersResponse GetSandboxOrders(
             @Nonnull final String account_id
     ) throws TinkoffServiceException {
-        var build =   GetOrdersRequest.newBuilder()
+        GetOrdersRequest.Builder build = GetOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
                 SandboxServiceGrpc.getGetSandboxOrdersMethod(),
@@ -118,7 +118,7 @@ public class Sandbox extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final String order_id
     ) throws TinkoffServiceException {
-        var build = CancelOrderRequest.newBuilder()
+        CancelOrderRequest.Builder build = CancelOrderRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
@@ -138,7 +138,7 @@ public class Sandbox extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final String order_id
     ) throws TinkoffServiceException {
-        var build =  GetOrderStateRequest.newBuilder()
+        GetOrderStateRequest.Builder build = GetOrderStateRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
@@ -154,7 +154,7 @@ public class Sandbox extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public PositionsResponse GetSandboxPositions(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = PositionsRequest.newBuilder();
+        PositionsRequest.Builder build = PositionsRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
                 SandboxServiceGrpc.getGetSandboxPositionsMethod(),
@@ -177,7 +177,7 @@ public class Sandbox extends ServiceBase {
             @Nonnull final com.google.protobuf.Timestamp to,
             OperationState operationstate,
             String figi) throws TinkoffServiceException {
-        var build = OperationsRequest.newBuilder();
+        OperationsRequest.Builder build = OperationsRequest.newBuilder();
         build.setAccountId(account_id);
         build.setFrom(from);
         build.setTo(to);
@@ -200,7 +200,7 @@ public class Sandbox extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public PortfolioResponse GetSandboxPortfolio(@Nonnull final String account_id) throws TinkoffServiceException {
-        var build = PortfolioRequest.newBuilder();
+        PortfolioRequest.Builder build = PortfolioRequest.newBuilder();
         build.setAccountId(account_id);
         return CallMethod(
                 SandboxServiceGrpc.getGetSandboxPortfolioMethod(),
@@ -211,7 +211,7 @@ public class Sandbox extends ServiceBase {
     public SandboxPayInResponse SandboxPayIn(@Nonnull final String account_id, @Nonnull final BigDecimal price, CurrencyEnum currency) throws TinkoffServiceException {
         if (currency == null)
             currency = CurrencyEnum.RUB;
-        var build = SandboxPayInRequest.newBuilder()
+        SandboxPayInRequest.Builder build = SandboxPayInRequest.newBuilder()
                 .setAccountId(account_id)
                 .setAmount(BigDecimaltoMoneyValue(price, currency));
         return CallMethod(

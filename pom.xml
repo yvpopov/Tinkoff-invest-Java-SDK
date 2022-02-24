@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
     <artifactId>Tinkoff-invest-Java-SDK</artifactId>
-    <version>1.0.8.0-Beta</version>
+    <version>1.0.8.1-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
     <description>Java SDK for Tinkoff-invest API(gRPC)</description>
@@ -28,9 +28,9 @@
         <github.global.server>github</github.global.server>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>10</maven.compiler.source>
-        <maven.compiler.target>10</maven.compiler.target>
-        <java.version>10</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <java.version>1.8</java.version>
     </properties>
     
     <distributionManagement>

@@ -22,7 +22,7 @@ public class Marketdata extends ServiceBase {
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException
      */
     public GetCandlesResponse GetCandles(@Nonnull final String figi, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to, @Nonnull final CandleInterval interval) throws TinkoffServiceException {
-        var build = GetCandlesRequest.newBuilder();
+        GetCandlesRequest.Builder build = GetCandlesRequest.newBuilder();
         build.setFigi(figi);
         build.setFrom(from);
         build.setTo(to);
@@ -40,7 +40,7 @@ public class Marketdata extends ServiceBase {
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException
      */
     public GetLastPricesResponse GetLastPrices(@Nonnull final List<String> figis) throws TinkoffServiceException {
-        var build = GetLastPricesRequest.newBuilder();
+        GetLastPricesRequest.Builder build = GetLastPricesRequest.newBuilder();
         for (String figi : figis) {
             build.addFigi(figi);
         }
@@ -58,7 +58,7 @@ public class Marketdata extends ServiceBase {
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException
      */
     public GetOrderBookResponse GetOrderBook(@Nonnull final String figi, int depth) throws TinkoffServiceException {
-        var build = GetOrderBookRequest.newBuilder();
+        GetOrderBookRequest.Builder build = GetOrderBookRequest.newBuilder();
         build.setFigi(figi);
         build.setDepth(depth);
         return CallMethod(
@@ -74,7 +74,7 @@ public class Marketdata extends ServiceBase {
      * @throws ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException
      */
     public GetTradingStatusResponse GetTradingStatus(@Nonnull final String figi) throws TinkoffServiceException {
-        var build = GetTradingStatusRequest.newBuilder();
+        GetTradingStatusRequest.Builder build = GetTradingStatusRequest.newBuilder();
         build.setFigi(figi);
         return CallMethod(
                 MarketDataServiceGrpc.getGetTradingStatusMethod(),

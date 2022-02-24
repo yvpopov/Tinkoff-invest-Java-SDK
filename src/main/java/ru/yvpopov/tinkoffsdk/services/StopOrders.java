@@ -37,7 +37,7 @@ public class StopOrders extends ServiceBase {
             @Nonnull final StopOrderExpirationType expiration_type,
             @Nonnull final StopOrderType stop_order_type,
             com.google.protobuf.Timestamp expire_date) throws TinkoffServiceException {
-        var build = PostStopOrderRequest.newBuilder();
+        PostStopOrderRequest.Builder build = PostStopOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
                 .setPrice(BigDecimaltoQuotation(price))
@@ -64,7 +64,7 @@ public class StopOrders extends ServiceBase {
     public GetStopOrdersResponse GetStopOrders(
             @Nonnull final String account_id
     ) throws TinkoffServiceException {
-        var build = GetStopOrdersRequest.newBuilder()
+        GetStopOrdersRequest.Builder build = GetStopOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
                 StopOrdersServiceGrpc.getGetStopOrdersMethod(),
@@ -81,7 +81,7 @@ public class StopOrders extends ServiceBase {
     public CancelStopOrderResponse CancelStopOrder(
             @Nonnull final String account_id
     ) throws TinkoffServiceException {
-        var build = CancelStopOrderRequest.newBuilder()
+        CancelStopOrderRequest.Builder build = CancelStopOrderRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
                 StopOrdersServiceGrpc.getCancelStopOrderMethod(),

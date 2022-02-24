@@ -36,7 +36,7 @@ public class Orders extends ServiceBase {
             @Nonnull final OrderType order_type,
             String order_id
     ) throws TinkoffServiceException {
-        var build = PostOrderRequest.newBuilder();
+        PostOrderRequest.Builder build = PostOrderRequest.newBuilder();
         build.setFigi(figi)
                 .setQuantity(quantity)
                 .setPrice(BigDecimaltoQuotation(price))
@@ -63,7 +63,7 @@ public class Orders extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final String order_id
     ) throws TinkoffServiceException {
-        var build = CancelOrderRequest.newBuilder()
+        CancelOrderRequest.Builder build = CancelOrderRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
@@ -83,7 +83,7 @@ public class Orders extends ServiceBase {
             @Nonnull final String account_id,
             @Nonnull final String order_id
     ) throws TinkoffServiceException {
-        var build = GetOrderStateRequest.newBuilder()
+        GetOrderStateRequest.Builder build = GetOrderStateRequest.newBuilder()
                 .setAccountId(account_id)
                 .setOrderId(order_id);
         return CallMethod(
@@ -101,7 +101,7 @@ public class Orders extends ServiceBase {
     public GetOrdersResponse GetOrders(
             @Nonnull final String account_id
     ) throws TinkoffServiceException {
-        var build = GetOrdersRequest.newBuilder()
+        GetOrdersRequest.Builder build = GetOrdersRequest.newBuilder()
                 .setAccountId(account_id);
         return CallMethod(
                 OrdersServiceGrpc.getGetOrdersMethod(),

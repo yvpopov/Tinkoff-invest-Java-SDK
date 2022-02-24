@@ -29,7 +29,7 @@ public class Instruments extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public TradingSchedulesResponse TradingSchedules(String Exchange, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to) throws TinkoffServiceException {
-        var build = TradingSchedulesRequest.newBuilder();
+        TradingSchedulesRequest.Builder build = TradingSchedulesRequest.newBuilder();
         if (Exchange != null) {
             build.setExchange(Exchange);
         }
@@ -42,7 +42,7 @@ public class Instruments extends ServiceBase {
     }
 
     protected InstrumentRequest instrumentrequest(TypeInstrument typeinstrument, InstrumentIdType id_type, String class_code, String id) {
-        var build = InstrumentRequest.newBuilder();
+        InstrumentRequest.Builder build = InstrumentRequest.newBuilder();
         if (id_type == null) {
             id_type = InstrumentIdType.INSTRUMENT_ID_UNSPECIFIED;
         }
@@ -253,7 +253,7 @@ public class Instruments extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public GetAccruedInterestsResponse GetAccruedInterests(@Nonnull final String figi, @Nonnull final com.google.protobuf.Timestamp from, @Nonnull final com.google.protobuf.Timestamp to) throws TinkoffServiceException {
-        var build = GetAccruedInterestsRequest.newBuilder();
+        GetAccruedInterestsRequest.Builder build = GetAccruedInterestsRequest.newBuilder();
         build.setFigi(figi);
         build.setFrom(from);
         build.setTo(to);
@@ -270,7 +270,7 @@ public class Instruments extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public GetFuturesMarginResponse GetFuturesMargin(@Nonnull final String figi) throws TinkoffServiceException {
-        var build = GetFuturesMarginRequest.newBuilder();
+        GetFuturesMarginRequest.Builder build = GetFuturesMarginRequest.newBuilder();
         build.setFigi(figi);
         return CallMethod(
                 InstrumentsServiceGrpc.getGetFuturesMarginMethod(),
@@ -287,7 +287,7 @@ public class Instruments extends ServiceBase {
      * @throws TinkoffServiceException
      */
     public GetDividendsResponse GetDividends(@Nonnull final String figi, com.google.protobuf.Timestamp from, com.google.protobuf.Timestamp to) throws TinkoffServiceException {
-        var build = GetDividendsRequest.newBuilder();
+        GetDividendsRequest.Builder build = GetDividendsRequest.newBuilder();
         build.setFigi(figi);
         if (from != null) {
             build.setFrom(from);

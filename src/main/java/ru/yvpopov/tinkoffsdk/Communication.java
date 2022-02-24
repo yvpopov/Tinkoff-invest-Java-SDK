@@ -37,7 +37,7 @@ public class Communication {
 
     Communication(List<String> tokens, String address, boolean ControlLimit) {
         this.tokens = tokens;
-        var pre = ManagedChannelBuilder
+        ManagedChannelBuilder pre = ManagedChannelBuilder
                 .forTarget(address)
                 .useTransportSecurity() //https (ssl/tls)
                 .intercept(new CI_HeadersCapture(InputHeaders, InputTrailers));
