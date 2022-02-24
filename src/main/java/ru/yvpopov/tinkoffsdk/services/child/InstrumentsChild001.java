@@ -62,18 +62,21 @@ public class InstrumentsChild001 extends ru.yvpopov.tinkoffsdk.services.Instrume
 
         private void addInstrList() throws TinkoffServiceException {
             switch (this.typeinstrument) {
-                case Bonds ->
+                case Bonds:
                     Bonds(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
-                case Currencys ->
+                    break;
+                case Currencys:
                     Currencys(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
-                case Etfs ->
+                    break;
+                case Etfs:
                     Etfs(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
-                case Futures ->
+                    break;
+                case Futures:
                     Futures(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
-                case Shares ->
+                    break;
+                case Shares:
                     Shares(InstrumentStatus.INSTRUMENT_STATUS_ALL).getInstrumentsList().forEach(e -> instrumentlist.add(new InstrumentCache(e)));
-                default -> {
-                }
+                    break;
             }
         }
 

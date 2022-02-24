@@ -39,21 +39,16 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
      */
     private Timestamp getFromWithLimit(Timestamp to, ru.tinkoff.piapi.contract.v1.CandleInterval interval) {
         switch (interval) {
-            case CANDLE_INTERVAL_1_MIN -> {
+            case CANDLE_INTERVAL_1_MIN: 
                 return new ConvertDateTime(to).minus(1, ChronoUnit.DAYS).toTimestamp();
-            }
-            case CANDLE_INTERVAL_5_MIN -> {
+            case CANDLE_INTERVAL_5_MIN:
                 return new ConvertDateTime(to).minus(1, ChronoUnit.DAYS).toTimestamp();
-            }
-            case CANDLE_INTERVAL_15_MIN -> {
+            case CANDLE_INTERVAL_15_MIN:
                 return new ConvertDateTime(to).minus(1, ChronoUnit.DAYS).toTimestamp();
-            }
-            case CANDLE_INTERVAL_HOUR -> {
+            case CANDLE_INTERVAL_HOUR:
                 return new ConvertDateTime(to).minus(1, ChronoUnit.WEEKS).toTimestamp();
-            }
-            case CANDLE_INTERVAL_DAY -> {
+            case CANDLE_INTERVAL_DAY:
                 return new ConvertDateTime(to).minus(1, ChronoUnit.YEARS).toTimestamp();
-            }
         }
         return to;
     }
@@ -76,21 +71,16 @@ public class MarketdataChild001 extends ru.yvpopov.tinkoffsdk.services.Marketdat
 
     private Timestamp getCandleMinus(Timestamp time, CandleInterval interval, int count) {
         switch (interval) {
-            case CANDLE_INTERVAL_1_MIN -> {
+            case CANDLE_INTERVAL_1_MIN:
                 return new ConvertDateTime(time).minus(1 * count, ChronoUnit.MINUTES).toTimestamp();
-            }
-            case CANDLE_INTERVAL_5_MIN -> {
+            case CANDLE_INTERVAL_5_MIN:
                 return new ConvertDateTime(time).minus(5 * count, ChronoUnit.MINUTES).toTimestamp();
-            }
-            case CANDLE_INTERVAL_15_MIN -> {
+            case CANDLE_INTERVAL_15_MIN:
                 return new ConvertDateTime(time).minus(15 * count, ChronoUnit.MINUTES).toTimestamp();
-            }
-            case CANDLE_INTERVAL_HOUR -> {
+            case CANDLE_INTERVAL_HOUR:
                 return new ConvertDateTime(time).minus(1 * count, ChronoUnit.HOURS).toTimestamp();
-            }
-            case CANDLE_INTERVAL_DAY -> {
+            case CANDLE_INTERVAL_DAY:
                 return new ConvertDateTime(time).minus(1 * count, ChronoUnit.DAYS).toTimestamp();
-            }
         }
         return time;
     }
