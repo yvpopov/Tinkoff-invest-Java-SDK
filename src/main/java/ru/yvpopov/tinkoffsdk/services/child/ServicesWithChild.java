@@ -7,7 +7,6 @@ import ru.yvpopov.tinkoffsdk.services.IAllServices;
 import ru.yvpopov.tinkoffsdk.services.Operations;
 import ru.yvpopov.tinkoffsdk.services.Orders;
 import ru.yvpopov.tinkoffsdk.services.Sandbox;
-import ru.yvpopov.tinkoffsdk.services.ServiceBase;
 import ru.yvpopov.tinkoffsdk.services.StopOrders;
 
 /**
@@ -18,9 +17,6 @@ public class ServicesWithChild implements IAllServices{
     
     TinkoffSDK sdk;
 
-    private InstrumentsChild001 instruments = null;
-    private MarketdataChild002 marketdata = null;
-    
     public ServicesWithChild(TinkoffSDK sdk) {
         this.sdk = sdk;
     }
@@ -29,6 +25,7 @@ public class ServicesWithChild implements IAllServices{
         return sdk.newCommunication();
     }
     
+    private InstrumentsChild001 instruments = null;
     
     @Override
     public InstrumentsChild001 getInstruments() {
@@ -37,10 +34,12 @@ public class ServicesWithChild implements IAllServices{
         return instruments;
     }
 
+    private MarketdataChild003 marketdata = null;
+
     @Override
-    public MarketdataChild002 getMarketdata() {
+    public MarketdataChild003 getMarketdata() {
         if (marketdata == null)
-            marketdata = new MarketdataChild002(newCommunication(), getInstruments());
+            marketdata = new MarketdataChild003(newCommunication(), getInstruments());
         return marketdata;
     }
 

@@ -9,7 +9,7 @@ import ru.tinkoff.piapi.contract.v1.Quotation;
 import ru.yvpopov.tinkoffsdk.Communication;
 import ru.yvpopov.tinkoffsdk.services.Instruments;
 import ru.yvpopov.tinkoffsdk.services.helpers.TinkoffServiceException;
-import ru.yvpopov.tinkoffsdk.tools.convertors;
+import ru.yvpopov.tinkoffsdk.tools.MoneyQuatationHelper;
 import ru.yvpopov.tools.ConvertDateTime;
 
 /**
@@ -58,7 +58,7 @@ public class MarketdataChild002 extends MarketdataChild001{
         if (gcr.getCandlesCount() > 0) {
             return gcr.getCandlesList().get(gcr.getCandlesCount()-1).getClose();
         }
-        return convertors.BigDecimaltoQuotation(BigDecimal.ZERO);
+        return MoneyQuatationHelper.BigDecimaltoQuotation(BigDecimal.ZERO);
     }
     
 }

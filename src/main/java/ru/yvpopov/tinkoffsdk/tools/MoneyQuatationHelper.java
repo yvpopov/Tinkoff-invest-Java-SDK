@@ -5,7 +5,7 @@ import ru.tinkoff.piapi.contract.v1.MoneyValue;
 import ru.tinkoff.piapi.contract.v1.Quotation;
 
 
-public class convertors {
+public class MoneyQuatationHelper {
     
     public enum CurrencyEnum {
         RUB("RUB"),
@@ -64,5 +64,14 @@ public class convertors {
                 : BigDecimal.valueOf(value.getUnits())
                         .add(BigDecimal.valueOf(value.getNano(), 9));
     }
+    
+    public static int Compare(Quotation x, Quotation y) {
+        return ru.yvpopov.tools.Helper.Compare(x.getUnits(), x.getNano(), y.getUnits(), y.getNano());
+    }
 
+    public static int Compare(MoneyValue x, MoneyValue y) {
+        return ru.yvpopov.tools.Helper.Compare(x.getUnits(), x.getNano(), y.getUnits(), y.getNano());
+    }
+    
+    
 }
