@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ru.yvpopov</groupId>
     <artifactId>Tinkoff-invest-Java-SDK</artifactId>
-    <version>1.0.10.1-Beta</version>
+    <version>1.0.10.2-Beta</version>
     <packaging>jar</packaging>
     <name>Tinkoff-invest-Java-SDK</name>
     <description>Java SDK for Tinkoff-invest API(gRPC)</description>
@@ -173,7 +173,7 @@
         <dependency>
             <groupId>ru.yvpopov</groupId>
             <artifactId>ConvertDataTime</artifactId>
-            <version>1.5.3</version>
+            <version>1.5.4</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
