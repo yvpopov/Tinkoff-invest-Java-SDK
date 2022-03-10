@@ -68,7 +68,7 @@ public class MarketdataChild003 extends MarketdataChild002 {
                         result.add(candle_cur);
                         candle_cur = query.get(candle_no);
                     } else {
-                        candle_cur = AddExtremumCandle(candle_cur, query.get(candle_no));
+                        candle_cur = AddCandle(candle_cur, query.get(candle_no));
                     }
                     candle_no++;
                 }
@@ -89,7 +89,7 @@ public class MarketdataChild003 extends MarketdataChild002 {
                         result.add(candle_cur);
                         candle_cur = query.get(candle_no);
                     } else {
-                        candle_cur = AddExtremumCandle(candle_cur, query.get(candle_no));
+                        candle_cur = AddCandle(candle_cur, query.get(candle_no));
                     }
                     mon = ConvertDateTime.getInstace(query.get(candle_no).getTime()).toZonedDateTime().getMonthValue();
                     candle_no++;
@@ -103,7 +103,7 @@ public class MarketdataChild003 extends MarketdataChild002 {
         }
     }
 
-    private HistoricCandle AddExtremumCandle(HistoricCandle candle1, HistoricCandle candle2) {
+    private HistoricCandle AddCandle(HistoricCandle candle1, HistoricCandle candle2) {
         if (ConvertDateTime.Compare(candle1.getTime(), candle2.getTime()) > 0) {
             HistoricCandle temp = candle1;
             candle1 = candle2;
@@ -116,6 +116,8 @@ public class MarketdataChild003 extends MarketdataChild002 {
         if (MoneyQuatationHelper.Compare(candle2.getLow(), candle1.getLow()) < 0) {
             candle1 = candle1.toBuilder().setLow(candle2.getLow()).build();
         }
+        //Добавить объем
+        candle1 = candle1.toBuilder().setVolume(candle1.getVolume()+candle2.getVolume()).build();
         return candle1;
     }
 
