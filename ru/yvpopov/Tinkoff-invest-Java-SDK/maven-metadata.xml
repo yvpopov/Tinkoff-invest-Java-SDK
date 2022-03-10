@@ -3,10 +3,10 @@
   <groupId>ru.yvpopov</groupId>
   <artifactId>Tinkoff-invest-Java-SDK</artifactId>
   <versioning>
-    <release>1.0.9.1-Beta</release>
+    <release>1.0.10.0-Beta</release>
     <versions>
-      <version>1.0.9.1-Beta</version>
+      <version>1.0.10.0-Beta</version>
     </versions>
-    <lastUpdated>20220310042605</lastUpdated>
+    <lastUpdated>20220310044850</lastUpdated>
   </versioning>
 </metadata>
