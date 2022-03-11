@@ -23,7 +23,8 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
         return getCommunication().getLastInputHeader();
     }
 
-    private int LimitRemainQueryForNextToken = 1;
+    private int LimitRemainQueryForNextToken = 5;
+    private long waitms = 6000L;
 
     public CI_CheckXRatelimit(Communication communication) {
         super(communication);
@@ -103,7 +104,7 @@ public class CI_CheckXRatelimit extends CI_HeaderAttaching {
     private void CheckLimit() {
         if (!isILimitRemain() && !NextToken()) {
             LOG.log(Level.FINE, String.format("Limit expired to '%s'\n", getIDateTimeRatelimitReset().getTime()));
-            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + 5000;
+            long pause_ms = (getIDateTimeRatelimitReset().getTimeInMillis() - Calendar.getInstance().getTimeInMillis()) + waitms;
             if (0 <= pause_ms) {
                 LOG.log(Level.FINE, String.format("Wail %d ms.\n", pause_ms));
             }
